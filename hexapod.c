@@ -1,17 +1,17 @@
-#define MAX_LEFT_KNEE 2500
-#define MIN_LEFT_KNEE 500
-#define MAX_RIGHT_KNEE 2500
-#define MIN_RIGHT_KNEE 500
+#define MAX_LEFT_KNEE   "2500"
+#define MIN_LEFT_KNEE   "500"
+#define MAX_RIGHT_KNEE  "2500"
+#define MIN_RIGHT_KNEE  "500"
 
-#define MAX_LEFT_VERT 500
-#define MIN_LEFT_VERT 2500
-#define MAX_RIGHT_VERT 2500
-#define MIN_RIGHT_VERT 500
+#define MAX_LEFT_VERT   "500"
+#define MIN_LEFT_VERT   "2500"
+#define MAX_RIGHT_VERT  "2500"
+#define MIN_RIGHT_VERT  "500"
 
-#define MAX_LEFT_HORIZ 500
-#define MIN_LEFT_HORIZ 2500
-#define MAX_RIGHT_HORIZ 2500
-#define MIN_RIGHT_HORIZ 500
+#define MAX_LEFT_HORIZ  "500"
+#define MIN_LEFT_HORIZ  "2500"
+#define MAX_RIGHT_HORIZ "2500"
+#define MIN_RIGHT_HORIZ "500"
 
 
 #define FRONT__LEFT__KNEE  "26"
@@ -35,12 +35,12 @@
 #define REAR___LEFT__HORIZ "16"
 #define REAR___RIGHT_HORIZ "00"
 
-#define ECHO "echo '#"
-#define SPEED " P2000 T1000'"
-
+#include <stdio.h>
+#include <stdlib.h>
 int main(void)
 {
-    system( ECHO
-        FRONT__RIGHT_VERT
-        SPEED );
+    char str[24];
+
+    sprintf(str, "echo '#%sP%sT%s'", FRONT__LEFT__KNEE, MAX_LEFT_KNEE, "1000");
+    system(str);
 }
