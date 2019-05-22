@@ -1,17 +1,17 @@
-#define MAX_L_KNEE   2100
-#define MIN_L_KNEE   500
-#define MAX_R_KNEE  900
-#define MIN_R_KNEE  2500
+#define MAX_L_KNEE 2100
+#define MIN_L_KNEE 500
+#define MAX_R_KNEE 900
+#define MIN_R_KNEE 2500
 
-#define MAX_L_VERT   500
-#define MIN_L_VERT   2100
-#define MAX_R_VERT  2500
-#define MIN_R_VERT  1000
+#define MAX_L_VERT 500
+#define MIN_L_VERT 2100
+#define MAX_R_VERT 2500
+#define MIN_R_VERT 1000
 
-#define MAX_L_HORI  500
-#define MIN_L_HORI  2100
+#define MAX_L_HORI 500
+#define MIN_L_HORI 2100
 #define MAX_R_HORI 500
-#define MIN_R_HORI 2100
+#define MIN_R_HORI 2500
 
 
 #define FRON_L_KNEE  26
@@ -128,15 +128,17 @@ int main(int ac, char **av)
 ./a.out couché > /dev/ttyUSB0
 ./a.out stand > /dev/ttyUSB0
 */
-    if (av[1] == NULL)
-        return 84;
-    if (strcmp(av[1], "stand") == 0)
-        do_debout();
-    if (strcmp(av[1], "dab") == 0)
-        do_dab();
-    if (strcmp(av[1], "couché") == 0)
-        do_coucher();
-    if (strcmp(av[1], "coucou") == 0)
-        do_coucou();
+    printf("#%dP%.d\n", MIDD_R_HORI, 1500);
     return 0;
+    // if (av[1] == NULL)
+    //     return 84;
+    // if (strcmp(av[1], "stand") == 0)
+    //     do_debout();
+    // if (strcmp(av[1], "dab") == 0)
+    //     do_dab();
+    // if (strcmp(av[1], "couché") == 0)
+    //     do_coucher();
+    // if (strcmp(av[1], "coucou") == 0)
+    //     do_coucou();
+    // return 0;
 }
