@@ -18,8 +18,8 @@ def open_usb(input):
 
 def wait_interrupt():
     try:
+        print("waiting", file=sys.stderr)
         while True:
-            print(".", file=sys.stderr)
             time.sleep(0.5)
     except KeyboardInterrupt:
         return
@@ -120,20 +120,15 @@ def demo_dab(sleep_action, sleep_timing):
         move_vert(MIDD_R_VERT, 0.4, sleep_timing)
 
 open_usb(INPUT)
-
 demo_sit(0, 0)
-
 demo_stand(0.25, 1)
 
 wait_interrupt()
-
 demo_wave(0.5, 2)
 
 wait_interrupt()
-
 demo_dab(0.25, 1)
 
 wait_interrupt()
-
 demo_sit(0, 0)
 # sys.exit(0)

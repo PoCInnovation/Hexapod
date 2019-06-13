@@ -1,0 +1,8 @@
+Lidar:
+Diamètre 7.2cm
+Distance fixation lidar 4cm
+
+Pièce:
+Hauteur batterie: 3,7cm
+Longueur ~12cm
+Largeur 3-4cm
