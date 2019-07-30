@@ -1,9 +1,24 @@
 from values import *
+import sys
+import time
+
+# FOR DEMO ONLY
+# Class that receives the hexapod class instance
+# and has functions to call the hexapod movements
 
 
 class HexapodDemo:
     def __init__(self, hexapod):
         self.hexapod = hexapod
+
+    # Called to freeze the Hexapod until you press ^C
+    def wait_interrupt(self, message="waiting"):
+        try:
+            print(message, file=sys.stderr)
+            while True:
+                time.sleep(2)
+        except KeyboardInterrupt:
+            return
 
     def demo_sit(self, sleep_action, sleep_timing):
         self.hexapod.move_vert(FRON_L_VERT, 1, 0)
@@ -82,7 +97,7 @@ class HexapodDemo:
         self.hexapod.move_vert(FRON_L_VERT, 0.7, 0)
         self.hexapod.move_vert(FRON_R_VERT, 0.3, sleep_action)
 
-        self.hexapod.wait_interrupt(message="waiting for dab end")
+        self.wait_interrupt(message="waiting for dab end")
         self.hexapod.move_vert(FRON_R_VERT, 1, sleep_timing + 0.5)
         self.hexapod.move_vert(FRON_L_VERT, 0.4, 0)
         self.hexapod.move_knee(FRON_L_KNEE, 0.5, 0)

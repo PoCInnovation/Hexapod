@@ -1,7 +1,11 @@
-import sys
 import time
 import socket
 from values import *
+
+# Hexapod Class
+# Receives the host and the port of the physical Hexapod to create a socket
+# Use it in a `with hexapod:` statement block
+#           (automaticaly connects and disconnects the socket)
 
 
 class Hexapod:
@@ -16,14 +20,6 @@ class Hexapod:
     def __enter__(self):
         return
         self.socket.connect((self.host, self.port))
-
-    def wait_interrupt(self, message="waiting"):
-        try:
-            print(message, file=sys.stderr)
-            while True:
-                time.sleep(2)
-        except KeyboardInterrupt:
-            return
 
     def __move_engine(self, articulation, deg, tab, sleep):
         if (articulation > 15):
