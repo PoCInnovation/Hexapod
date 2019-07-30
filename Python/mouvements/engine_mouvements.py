@@ -1,9 +1,16 @@
 from values import *
 import time
+import socket
+
+sock = socket.socket()
+host = "192.168.4.1"  #ESP32 IP in local network
+port = 80             #ESP32 Server Port
+sock.connect((host, port))
 
 def move_engine(leg, deg):
-    command = "#%dP%.0fS700" % (leg, deg)
-    print(command)
+    line = "#%dP%.0fS700!" % (leg, deg)
+    command = bytes(line.encode('utf-8'))
+    sock.send(command)
 
 def move_knee(leg, deg, sleep):
     if (leg > 15):

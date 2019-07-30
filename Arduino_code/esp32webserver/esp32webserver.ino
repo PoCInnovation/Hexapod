@@ -62,7 +62,7 @@ void send_info_lidar(WiFiClient client)
 //  client.println();
 }
 
-void get_client_movement()
+void get_client_movement(WiFiClient client)
 {
     char str[STR_LEN];
     char c;
