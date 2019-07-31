@@ -1,46 +1,52 @@
-# MAX VALUES FOR LEGS
-MAX_L_KNEE = 2100
-MIN_L_KNEE = 500
-MAX_R_KNEE = 900
-MIN_R_KNEE = 2500
+import json
 
-MAX_L_VERT = 500
-MIN_L_VERT = 2100
-MAX_R_VERT = 2500
-MIN_R_VERT = 1000
+with open('values.json') as json_file:
+    data = json.load(json_file)
+    pins = data["pins"]
+    minMaxValues = data["minMaxValues"]
 
-MAX_L_HORI = 500
-MIN_L_HORI = 2100
-MAX_R_HORI = 500
-MIN_R_HORI = 2500
+REAR_R_HORI = pins["rearRHori"]
+REAR_R_VERT = pins["rearRVert"]
+REAR_R_KNEE = pins["rearRKnee"]
+REAR_L_HORI = pins["rearLHori"]
+REAR_L_VERT = pins["rearLVert"]
+REAR_L_KNEE = pins["rearLKnee"]
+MIDD_R_HORI = pins["middRHori"]
+MIDD_R_VERT = pins["middRVert"]
+MIDD_R_KNEE = pins["middRKnee"]
+MIDD_L_HORI = pins["middLHori"]
+MIDD_L_VERT = pins["middLVert"]
+MIDD_L_KNEE = pins["middLKnee"]
+FRON_R_HORI = pins["fronRHori"]
+FRON_R_VERT = pins["fronRVert"]
+FRON_R_KNEE = pins["fronRKnee"]
+FRON_L_HORI = pins["fronLHori"]
+FRON_L_VERT = pins["fronLVert"]
+FRON_L_KNEE = pins["fronLKnee"]
 
-# ENGINE NUMBERS
-FRON_L_KNEE = 26
-FRON_R_KNEE = 10
-MIDD_L_KNEE = 22
-MIDD_R_KNEE = 6
-REAR_L_KNEE = 18
-REAR_R_KNEE = 2
+KNEE_VALUES = [
+    [minMaxValues["maxLKnee"],
+     minMaxValues["minLKnee"]
+     ],
+    [minMaxValues["maxRKnee"],
+     minMaxValues["minRKnee"]
+     ],
+]
 
-FRON_L_VERT = 25
-FRON_R_VERT = 9
-MIDD_L_VERT = 21
-MIDD_R_VERT = 5
-REAR_L_VERT = 17
-REAR_R_VERT = 1
+VERT_VALUES = [
+    [minMaxValues["maxLVert"],
+     minMaxValues["minLVert"]
+     ],
+    [minMaxValues["maxRVert"],
+     minMaxValues["minRVert"]
+     ],
+]
 
-FRON_L_HORI = 24
-FRON_R_HORI = 8
-MIDD_L_HORI = 20
-MIDD_R_HORI = 4
-REAR_L_HORI = 16
-REAR_R_HORI = 0
-
-KNEE_VALUES = [[MAX_L_KNEE, MIN_L_KNEE],
-               [MAX_R_KNEE, MIN_R_KNEE]]
-
-VERT_VALUES = [[MAX_L_VERT, MIN_L_VERT],
-               [MAX_R_VERT, MIN_R_VERT]]
-
-HORI_VALUES = [[MAX_L_HORI, MIN_L_HORI],
-               [MAX_R_HORI, MIN_R_HORI]]
+HORI_VALUES = [
+    [minMaxValues["maxLHori"],
+     minMaxValues["minLHori"]
+     ],
+    [minMaxValues["maxRHori"],
+     minMaxValues["minRHori"]
+     ],
+]
