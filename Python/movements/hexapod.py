@@ -18,7 +18,7 @@ class Hexapod:
         self.socket.close()
 
     def __enter__(self):
-        return
+        # return
         self.socket.connect((self.host, self.port))
 
     # Sends movements to the Hexapod
@@ -40,12 +40,12 @@ class Hexapod:
         # S=speed
         # !=custom EOL for arduino decode
 
-        # We need to the command to send it via sockets
+        # We need to encode the command to send it via sockets
         command = bytes(line.encode('utf-8'))
 
         # We send the command via WiFi
-        # self.socket.send(command)
-        print(command)
+        self.socket.send(command)
+        # print(command)
 
         # Finally, we can add some sleep to avoid flooding the board
         time.sleep(sleep)
@@ -58,17 +58,3 @@ class Hexapod:
 
     def move_hori(self, articulation, deg, sleep):
         self.__move_engine(articulation, deg, 700, HORI_VALUES, sleep)
-
-
-# DEPRECATED
-# INPUT = "/dev/ttyUSB0"
-# def open_usb(input):
-#     try:
-#         sys.stdout = open(input, "w")
-#     except (PermissionError) as error:
-#         print("Could not find hexapod input: %s" % error)
-#         # print("try \n\033[1m\033[31msudo chmod 777 %s\033[0m" % input)
-#         import os
-#         os.system("sudo chmod 777 %s" % input)
-#         exit(1)
-# open_usb(INPUT)
