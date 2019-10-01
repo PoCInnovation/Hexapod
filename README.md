@@ -1,69 +1,63 @@
-# H1
+# Hexapod
 
-## H2
+See `DEMO` for quick use.
 
-### H3
+## Start the Hexapod
 
-#### H4
+- Plug the battery to the robot.
 
-##### H5
+## Connect the Hexapod
 
-###### H6
+#### Flash and power the ESP-32
+- Flash the arduino code from `./Arduino_Code` to the ESP-32.
+- Connect `VS2+` from the Hexapod to `VIN` on the ESP-32.
+- Connect `VS2-` from the Hexapod to `GND` on the ESP-32.
 
-Alternatively, for H1 and H2, an underline-ish style:
+#### Connect the Hexapod to the ESP-32
+- Connect `TX` from the Hexapod to `D2` on the ESP-32.
+- Connect `RX` from the Hexapod to `D15` on the ESP-32.
+- Connect `G` from the Hexapod to `GND` on the ESP-32.
 
-# Alt-H1
+#### Connect to the Hexapod
+- Connect your computer to the wifi `hexapod_wifi`.
 
-## Alt-H2
 
-1. fewfwfwefwe
-2. Do that
+# Control
 
-```python
-print("Hello")
-```
+Control the robotic with Hexapod class in ./Python/movements/hexapod.py.<br />
+Create a class instance and use the class methods to move the engines.
 
-| Tables        |      Are      |   Cool |
-| ------------- | :-----------: | -----: |
-| col 3 is      | right-aligned | \$1600 |
-| col 2 is      |   centered    |   \$12 |
-| zebra stripes |   are neat    |    \$1 |
+See `DEMO` for exemples.
 
-| Markdown | Less      | Pretty     |
-| -------- | --------- | ---------- |
-| _Still_  | `renders` | **nicely** |
-| 1        | 2         | 3          |
+# Demo
 
-```javascript
-var s = 'JavaScript syntax highlighting';
-alert(s);
-```
+A demo can be found in `./Python/movements/demoMain.py`.
 
-```python
-s = "Python syntax highlighting"
-print s
-```
+It creates a class instance of Hexapod and HexapodDemo.
 
-```html
-No language indicated, so no syntax highlighting. But let's throw in a
-<b>tag</b>.
-```
+HexapodDemo is a class from `./Python/movements/demoCode.py`<br />
+It contains wrapper for the Hexapod class, like `stand`, `sit`, `wait`, `wave` and `dab`
 
-1. First ordered list item
-2. Another item
-   ⋅⋅\* Unordered sub-list.
-3. Actual numbers don't matter, just that it's a number
-   ⋅⋅1. Ordered sub-list
-4. And another item.
+The main connects to the Hexapod and tells it to stand, wave, dab, and sit.<br />
+After each actions, it stops the Hexapod and waits for a `SIGINT` from the terminal.
 
-⋅⋅⋅You can have properly indented paragraphs within list items. Notice the blank line above, and the leading spaces (at least one, but we'll use three here to also align the raw Markdown).
+## Launch Demo
+- Follow instructions from `Hexapod - Start the Hexapod`<br />
+/!\ The ESP-32 from PoC is already flashed!<br />
+`You only need to plug the wires, switch the battery lever and connect to wifi.`
 
-⋅⋅⋅To have a line break without a paragraph, you will need to use two trailing spaces.⋅⋅
-⋅⋅⋅Note that this line is separate, but within the same paragraph.⋅⋅
-⋅⋅⋅(This is contrary to the typical GFM line break behaviour, where trailing spaces are not required.)
+- Launch the `demoMain.py` script.
 
-- Unordered list can use asterisks
+- The Hexapod will stand, wave and dab.<br />
+Remember, the Hexapod waits for you to tell it when to stop an action.
 
-* Or minuses
+- The Hexapod will sit and the script will end.
 
-- Or pluses
+- The demo is done and ready for another use.
+
+
+# Notes
+
+- For any assistance, feel free to ask `lorenzo.rosmarino@epitech.eu` or `yohann.assouline@epitech.eu`
+
+- ### `/!\ Remember to charge the batteries`

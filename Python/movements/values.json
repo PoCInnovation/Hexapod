@@ -1,0 +1,36 @@
+{
+  "minMaxValues": {
+    "maxLKnee": 2100,
+    "minLKnee": 500,
+    "maxRKnee": 900,
+    "minRKnee": 2500,
+    "maxLVert": 500,
+    "minLVert": 2100,
+    "maxRVert": 2500,
+    "minRVert": 1000,
+    "maxLHori": 500,
+    "minLHori": 2100,
+    "maxRHori": 500,
+    "minRHori": 2500
+  },
+  "pins": {
+    "rearRHori": 0,
+    "rearRVert": 1,
+    "rearRKnee": 2,
+    "rearLHori": 16,
+    "rearLVert": 17,
+    "rearLKnee": 18,
+    "middRHori": 4,
+    "middRVert": 5,
+    "middRKnee": 6,
+    "middLHori": 20,
+    "middLVert": 21,
+    "middLKnee": 22,
+    "fronRHori": 8,
+    "fronRVert": 9,
+    "fronRKnee": 10,
+    "fronLHori": 24,
+    "fronLVert": 25,
+    "fronLKnee": 26
+  }
+}
