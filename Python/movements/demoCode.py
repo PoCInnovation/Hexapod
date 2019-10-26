@@ -6,7 +6,6 @@ import time
 # Class that receives the hexapod class instance
 # and has functions to call the hexapod movements
 
-
 class HexapodDemo:
     def __init__(self, hexapod):
         self.hexapod = hexapod
@@ -109,3 +108,45 @@ class HexapodDemo:
         self.hexapod.move_hori(MIDD_R_HORI, 0.5, sleep_action)
         self.hexapod.move_vert(MIDD_L_VERT, 0.4, 0)
         self.hexapod.move_vert(MIDD_R_VERT, 0.4, sleep_timing)
+
+    def walk_forward(self, sleep_action, sleep_timing):
+        # on leve 3 pattes
+        self.hexapod.move_knee(FRON_R_VERT, 0.35, 0)
+        self.hexapod.move_knee(MIDD_L_VERT, 0.35, 0)
+        self.hexapod.move_knee(REAR_R_VERT, 0.35, 1)
+
+        # on avance les 3 autres
+        self.hexapod.move_hori(FRON_L_HORI, 0.35, 0)
+        self.hexapod.move_hori(MIDD_R_HORI, 0.65, 0)
+        self.hexapod.move_hori(REAR_L_HORI, 0.35, 1)
+
+        # on avance les 3 en l'air
+        self.hexapod.move_hori(FRON_R_HORI, 0.35, 0)
+        self.hexapod.move_hori(MIDD_L_HORI, 0.65, 0)
+        self.hexapod.move_hori(REAR_R_HORI, 0.35, 1)
+
+        # on repose les 3 pattes
+        self.hexapod.move_knee(FRON_R_VERT, 0.5, 0)
+        self.hexapod.move_knee(MIDD_L_VERT, 0.5, 0)
+        self.hexapod.move_knee(REAR_R_VERT, 0.5, 1)
+
+        # ----------------------------------
+
+        self.hexapod.move_knee(FRON_L_VERT, 0.35, 0)
+        self.hexapod.move_knee(MIDD_R_VERT, 0.35, 0)
+        self.hexapod.move_knee(REAR_L_VERT, 0.35, 1)
+
+        # on avance les 3 autres
+        self.hexapod.move_hori(FRON_L_HORI, 0.65, 0)
+        self.hexapod.move_hori(MIDD_R_HORI, 0.35, 0)
+        self.hexapod.move_hori(REAR_L_HORI, 0.65, 1)
+
+        # on avance les 3 en l'air
+        self.hexapod.move_hori(FRON_R_HORI, 0.65, 0)
+        self.hexapod.move_hori(MIDD_L_HORI, 0.35, 0)
+        self.hexapod.move_hori(REAR_R_HORI, 0.65, 1)
+
+        # on repose les 3 pattes
+        self.hexapod.move_knee(FRON_L_VERT, 0.5, 0)
+        self.hexapod.move_knee(MIDD_R_VERT, 0.5, 0)
+        self.hexapod.move_knee(REAR_L_VERT, 0.5, 1)
