@@ -1,47 +1,15 @@
 #!/usr/bin/python3
 
-import socket
-import sys
 import time
 from values import *
 from hardcoded_movements import *
-
-SOCKET_HOST = "192.168.4.1"  # ESP32 IP in local network
-SOCKET_PORT = 80             # ESP32 Server Port
-
-class HexapodConnection:
-    def __init__(self, host, port):
-        self.socket = socket.socket()
-        self.host = host
-        self.port = port
-        self.init_connection()
-
-    def close(self):
-        self.socket.close()
-
-    def init_connection(self):
-        try:
-            self.socket.connect((self.host, self.port))
-        except:
-            print("\nYou must connect to Hexapod's wifi first")
-            exit(1)
-
-    def send_command(self, command, sleep_time):
-        command = bytes(command.encode('utf-8'))
-        try:
-            self.socket.send(command)
-        except:
-            print("\nError : couldn't send command")
-            self.close()
-            exit(1)
-        time.sleep(sleep_time)
-
+from hexapod_connection import*
 
 class Hexapod:
     def __init__(self):
-        self.connection = HexapodConnection(SOCKET_HOST, SOCKET_PORT)
+        self.connection = HexapodConnection()
         self.hexapod_movements = HardcodedMovements(self.connection)
-        self.valid_commands = ["help", "sit", "stand", "forward", "dab", "wave"]
+        self.valid_commands = ["help", "sit", "stand", "forward", "dab", "wave", "stand1", "stand2", "stand3"]
         self.position = "sit"
         self.start_prompt()
 
@@ -56,7 +24,7 @@ class Hexapod:
         if self.position == "sit":
             if command == "stand":
                 self.position = "stand"
-            elif command == "dab" or command == "wave" or command == "forward":
+            elif command == "dab" or command == "wave":
                 self.do_action("stand")
                 time.sleep(1)
         elif self.position == "stand":
