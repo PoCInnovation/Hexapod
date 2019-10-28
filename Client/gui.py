@@ -61,10 +61,12 @@ class Gui:
 
         # angle
         self.angle = DoubleVar()
+        self.angle.set(0.5)
         Scale(self.fen, orient='horizontal', from_=0, to=1, resolution=0.05, tickinterval=0.05, length=800, variable=self.angle).grid(column=1, row=4, columnspan=8)
 
         # speed
         self.speed = IntVar()
+        self.speed.set(500)
         Scale(self.fen, orient='horizontal', from_=100, to=1000, resolution=50, tickinterval=50, length=800, variable=self.speed).grid(column=1, row=5, columnspan=8)
 
         # Ok
@@ -108,5 +110,6 @@ class Gui:
     def quit(self, event=None):
         self.fen.quit()
         self.fen.destroy()
+
 if __name__ == '__main__':
     Gui()
