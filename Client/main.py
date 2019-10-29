@@ -4,10 +4,11 @@ import time
 from values import *
 from hardcoded_movements import *
 from hexapod_connection import*
+import sys
 
 class Hexapod:
-    def __init__(self):
-        self.connection = HexapodConnection()
+    def __init__(self, mode):
+        self.connection = HexapodConnection(mode=mode)
         self.hexapod_movements = HardcodedMovements(self.connection)
         self.valid_commands = ["help", "sit", "stand", "forward", "dab", "wave", "stand1", "stand2", "stand3"]
         self.position = "sit"
@@ -58,4 +59,7 @@ class Hexapod:
         getattr(self.hexapod_movements, command)()
 
 if __name__ == '__main__':
-    Hexapod()
+    if len(sys.argv) == 2 and sys.argv[1] == "--wire":
+        Hexapod("wire")
+    else:
+        Hexapod("wifi")

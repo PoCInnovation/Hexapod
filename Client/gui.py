@@ -4,6 +4,7 @@ from tkinter import*
 from values import *
 from hexapod_connection import*
 import hardcoded_movements
+import sys
 
 ENGINES = {
     "rrh": REAR_R_HORI,
@@ -27,10 +28,10 @@ ENGINES = {
 }
 
 class Gui:
-    def __init__(self):
+    def __init__(self, mode):
         self.fen = Tk()
         self.fen.geometry("1000x500")
-        self.connection = HexapodConnection()
+        self.connection = HexapodConnection(mode=mode)
         self.hardcoded_movements = hardcoded_movements.HardcodedMovements(self.connection)
 
         # side
@@ -80,6 +81,8 @@ class Gui:
         Button(self.fen, text="stand3", command=self.hardcoded_movements.stand3).grid(row=7, column=5)
         Button(self.fen, text="wave", command=self.hardcoded_movements.wave).grid(row=7, column=6)
         Button(self.fen, text="dab", command=self.hardcoded_movements.dab).grid(row=7, column=7)
+        Button(self.fen, text="forward", command=self.hardcoded_movements.forward).grid(row=7, column=8)
+        Button(self.fen, text="stand4", command=self.hardcoded_movements.stand4).grid(row=7, column=9)
 
         self.fen.bind_all("<Escape>", self.quit)
         self.fen.mainloop()
@@ -112,4 +115,7 @@ class Gui:
         self.fen.destroy()
 
 if __name__ == '__main__':
-    Gui()
+    if len(sys.argv) == 2 and sys.argv[1] == "--wire":
+        Gui("wire")
+    else:
+        Gui("wifi")

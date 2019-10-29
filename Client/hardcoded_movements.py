@@ -60,36 +60,46 @@ class HardcodedMovements:
 
     def sit(self):
         self.stand()
-        self.move_kind("hori", 0.5)
-        time.sleep(0.5)
         self.move_kind("vert", 1)
         time.sleep(0.5)
         self.move_kind("knee", 0)
 
+    def place_hori(self, mode):
+        if "mode" == "para":
+            self.move_kind("hori", 0.5)
+        elif mode == "normal":
+            self.hexapod.move_hori(FRON_L_HORI, 0.7, 0)
+            self.hexapod.move_hori(FRON_R_HORI, 0.3, 0)
+            self.hexapod.move_hori(MIDD_L_HORI, 0.5, 0)
+            self.hexapod.move_hori(MIDD_R_HORI, 0.5, 0)
+            self.hexapod.move_hori(REAR_L_HORI, 0.3, 0)
+            self.hexapod.move_hori(REAR_R_HORI, 0.7, 0)
+
+
     def stand(self):
-        self.move_kind("hori", 0.5)
-        time.sleep(0.5)
+        self.place_hori('normal')
         self.move_kind("knee", 0.4)
         time.sleep(0.25)
         self.move_kind("vert", 0.6)
 
     def stand1(self):
-        self.move_kind("hori", 0.5)
-        time.sleep(0.5)
+        self.place_hori('normal')
         self.move_kind("vert", 0.4)
-        self.move_kind("knee", 0.6)
+        self.move_kind("knee", 0.5)
 
     def stand2(self):
-        self.move_kind("hori", 0.5)
-        time.sleep(0.5)
+        self.place_hori('normal')
         self.move_kind("vert", 0.2)
         self.move_kind("knee", 0.7)
 
     def stand3(self):
-        self.move_kind("hori", 0.5)
-        time.sleep(0.5)
+        self.place_hori('normal')
         self.move_kind("knee", 0.8)
         self.move_kind("vert", 0.1)
+
+    def stand4(self):
+        self.place_hori('normal')
+
 
     def wave(self):
         self.hexapod.move_vert(FRON_R_VERT, 1, 0)
@@ -132,51 +142,33 @@ class HardcodedMovements:
         self.hexapod.move_vert(MIDD_L_VERT, 0.4, 0)
         self.hexapod.move_vert(MIDD_R_VERT, 0.4, self.sleep_action_time)
 
+    def move_knee_up(self):
+        kind = 'vert'
+        affected_engines = []
+        for key in ENGINES:
+            if kind in key:
+                affected_engines.append(ENGINES[key])
+        for engine in affected_engines:
+            getattr(self.hexapod, "move_" + kind)(engine, 0.6, 0)
+            time.sleep(0.5)
+            getattr(self.hexapod, "move_" + kind)(engine, 0.2, 0)
+
+
+
     def forward(self):
+        # on monte
+        self.hexapod.move_vert(FRON_R_VERT, 0.5, 0)
+        self.hexapod.move_vert(MIDD_L_VERT, 0.5, 0)
+        self.hexapod.move_vert(REAR_R_VERT, 0.5, 0)
 
-        # def stand2(self):
-        #     self.move_kind("hori", 0.5)
-        #     time.sleep(0.5)
-        #     self.move_kind("vert", 0.2)
-        #     self.move_kind("knee", 0.7)
+        # avance le corps
+        time.sleep(0.5)
+        self.hexapod.move_hori(FRON_R_HORI, 0.4, 0)
+        self.hexapod.move_hori(MIDD_L_HORI, 0.6, 0)
+        self.hexapod.move_hori(REAR_R_HORI, 0.4, 0)
 
-        # on leve 3 pattes
-        self.hexapod.move_knee(FRON_R_VERT, 0.55 , 0)
-        self.hexapod.move_knee(MIDD_L_VERT, 0.55, 0)
-        self.hexapod.move_knee(REAR_R_VERT, 0.55, 1)
-
-        # on avance les 3 autres
-        # self.hexapod.move_hori(FRON_L_HORI, 0.35, 0)
-        # self.hexapod.move_hori(MIDD_R_HORI, 0.65, 0)
-        # self.hexapod.move_hori(REAR_L_HORI, 0.35, 1)
-
-        # on avance les 3 en l'air
-        # self.hexapod.move_hori(FRON_R_HORI, 0.35, 0)
-        # self.hexapod.move_hori(MIDD_L_HORI, 0.65, 0)
-        # self.hexapod.move_hori(REAR_R_HORI, 0.35, 1)
-
-        # on repose les 3 pattes
-        # self.hexapod.move_knee(FRON_R_VERT, 0.5, 0)
-        # self.hexapod.move_knee(MIDD_L_VERT, 0.5, 0)
-        # self.hexapod.move_knee(REAR_R_VERT, 0.5, 1)
-
-        # ----------------------------------
-
-        # self.hexapod.move_knee(FRON_L_VERT, 0.35, 0)
-        # self.hexapod.move_knee(MIDD_R_VERT, 0.35, 0)
-        # self.hexapod.move_knee(REAR_L_VERT, 0.35, 1)
-
-        # on avance les 3 autres
-        # self.hexapod.move_hori(FRON_L_HORI, 0.65, 0)
-        # self.hexapod.move_hori(MIDD_R_HORI, 0.35, 0)
-        # self.hexapod.move_hori(REAR_L_HORI, 0.65, 1)
-
-        # on avance les 3 en l'air
-        # self.hexapod.move_hori(FRON_R_HORI, 0.65, 0)
-        # self.hexapod.move_hori(MIDD_L_HORI, 0.35, 0)
-        # self.hexapod.move_hori(REAR_R_HORI, 0.65, 1)
-
-        # on repose les 3 pattes
-        # self.hexapod.move_knee(FRON_L_VERT, 0.5, 0)
-        # self.hexapod.move_knee(MIDD_R_VERT, 0.5, 0)
-        # self.hexapod.move_knee(REAR_L_VERT, 0.5, 1)
+        # on rebaisse les pates
+        time.sleep(0.5)
+        self.hexapod.move_vert(FRON_R_VERT, 0.2, 0)
+        self.hexapod.move_vert(MIDD_L_VERT, 0.2, 0)
+        self.hexapod.move_vert(REAR_R_VERT, 0.2, 0)
