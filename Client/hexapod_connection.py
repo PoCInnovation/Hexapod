@@ -58,6 +58,7 @@ class HexapodConnection:
                 self.close()
                 exit(1)
         else:
+            command.replace('!', '')
             t = 'echo "' + command + '" > /dev/ttyUSB0'
             os.system(t)
         time.sleep(sleep_time)

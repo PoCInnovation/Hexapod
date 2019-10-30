@@ -2,6 +2,7 @@
 
 from values import *
 from hexapod_connection import*
+import sys
 
 class Hexapod:
     def __init__(self, mode):

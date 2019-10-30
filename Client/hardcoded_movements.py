@@ -97,10 +97,6 @@ class HardcodedMovements:
         self.move_kind("knee", 0.8)
         self.move_kind("vert", 0.1)
 
-    def stand4(self):
-        self.place_hori('normal')
-
-
     def wave(self):
         self.hexapod.move_vert(FRON_R_VERT, 1, 0)
         self.hexapod.move_knee(FRON_R_KNEE, 1, 0.5)
@@ -153,22 +149,11 @@ class HardcodedMovements:
             time.sleep(0.5)
             getattr(self.hexapod, "move_" + kind)(engine, 0.2, 0)
 
-
-
     def forward(self):
-        # on monte
-        self.hexapod.move_vert(FRON_R_VERT, 0.5, 0)
-        self.hexapod.move_vert(MIDD_L_VERT, 0.5, 0)
-        self.hexapod.move_vert(REAR_R_VERT, 0.5, 0)
+        command = "RH 2100 RM 1400 RL 1000 LH 500 LM 1400 LL 1800 VS 500 LF 800 LR 1700 RF 1700 RR 800 HT 500 XL 20 XR 20 XS 170!"
+        self.hexapod_connection.send_command(command, 0)
 
-        # avance le corps
-        time.sleep(0.5)
-        self.hexapod.move_hori(FRON_R_HORI, 0.4, 0)
-        self.hexapod.move_hori(MIDD_L_HORI, 0.6, 0)
-        self.hexapod.move_hori(REAR_R_HORI, 0.4, 0)
+    def stop(self):
+        commmand = "XSTOP!"
+        self.hexapod_connection.send_command(command, 0)
 
-        # on rebaisse les pates
-        time.sleep(0.5)
-        self.hexapod.move_vert(FRON_R_VERT, 0.2, 0)
-        self.hexapod.move_vert(MIDD_L_VERT, 0.2, 0)
-        self.hexapod.move_vert(REAR_R_VERT, 0.2, 0)
