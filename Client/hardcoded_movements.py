@@ -47,6 +47,7 @@ class Hexapod_movements:
 
 class HardcodedMovements:
     def __init__(self, connection):
+        self.connection = connection
         self.hexapod = Hexapod_movements(connection)
         self.sleep_action_time = 0.25
 
@@ -151,9 +152,9 @@ class HardcodedMovements:
 
     def forward(self):
         command = "RH 2100 RM 1400 RL 1000 LH 500 LM 1400 LL 1800 VS 500 LF 800 LR 1700 RF 1700 RR 800 HT 500 XL 20 XR 20 XS 170!"
-        self.hexapod_connection.send_command(command, 0)
+        self.connection.send_command(command, 0)
 
     def stop(self):
         commmand = "XSTOP!"
-        self.hexapod_connection.send_command(command, 0)
+        self.connection.send_command(commmand, 0)
 
