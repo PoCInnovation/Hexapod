@@ -66,7 +66,7 @@ class HardcodedMovements:
         self.move_kind("knee", 0)
 
     def place_hori(self, mode):
-        if "mode" == "para":
+        if mode == "para":
             self.move_kind("hori", 0.5)
         elif mode == "normal":
             self.hexapod.move_hori(FRON_L_HORI, 0.7, 0)
