@@ -1,64 +1,48 @@
-# DISCLAIMER : README IS NOT UP TO DATE AT ALL, DON'T REFER TO IT, I WILL UPDATE IT WHEN I'LL HAVE THE TIME
 # Hexapod
 
-See `DEMO` for quick use.
+## Quick use
 
-## Start the Hexapod
+1. Plug in the battery
 
-- Plug the battery to the robot.
+2. Turn it on
 
-## Connect the Hexapod
+3. connect to the Hexapod wifi (no password required)
+
+4. launch Client/gui.py
+
+5. once you're on the gui juste use the action buttons (sit, stand, walk...)
+
+## Pinout
+
+Connect :
+
+-  `VS2+` from the Hexapod to `VIN` on the ESP-32.
+-  `VS2-` from the Hexapod to `GND` on the ESP-32.
+
+-  `TX` from the Hexapod to `D2` on the ESP-32.
+- `RX` from the Hexapod to `D15` on the ESP-32.
+-  `G` from the Hexapod to `GND` on the ESP-32.
+
+
 
 #### Flash and power the ESP-32
+
 - Flash the arduino code from `./Arduino_Code` to the ESP-32.
-- Connect `VS2+` from the Hexapod to `VIN` on the ESP-32.
-- Connect `VS2-` from the Hexapod to `GND` on the ESP-32.
-
-#### Connect the Hexapod to the ESP-32
-- Connect `TX` from the Hexapod to `D2` on the ESP-32.
-- Connect `RX` from the Hexapod to `D15` on the ESP-32.
-- Connect `G` from the Hexapod to `GND` on the ESP-32.
-
-#### Connect to the Hexapod
-- Connect your computer to the wifi `hexapod_wifi`.
-
-
-# Control
-
-Control the robotic with Hexapod class in ./Python/movements/hexapod.py.<br />
-Create a class instance and use the class methods to move the engines.
-
-See `DEMO` for exemples.
-
-# Demo
-
-A demo can be found in `./Python/movements/demoMain.py`.
-
-It creates a class instance of Hexapod and HexapodDemo.
-
-HexapodDemo is a class from `./Python/movements/demoCode.py`<br />
-It contains wrapper for the Hexapod class, like `stand`, `sit`, `wait`, `wave` and `dab`
-
-The main connects to the Hexapod and tells it to stand, wave, dab, and sit.<br />
-After each actions, it stops the Hexapod and waits for a `SIGINT` from the terminal.
-
-## Launch Demo
-- Follow instructions from `Hexapod - Start the Hexapod`<br />
-/!\ The ESP-32 from PoC is already flashed!<br />
-`You only need to plug the wires, switch the battery lever and connect to wifi.`
-
-- Launch the `demoMain.py` script.
-
-- The Hexapod will stand, wave and dab.<br />
-Remember, the Hexapod waits for you to tell it when to stop an action.
-
-- The Hexapod will sit and the script will end.
-
-- The demo is done and ready for another use.
-
+  
+  (we need to fix it, for now flash OLDARDUINOCODE.ino)
+  
+  
 
 # Notes
 
-- For any assistance, feel free to ask `lorenzo.rosmarino@epitech.eu` or `yohann.assouline@epitech.eu`
+For any assistance, feel free to ask to:
 
-- ### `/!\ Remember to charge the batteries`
+- `lorenzo.rosmarino@epitech.eu` 
+
+- `yohann.assouline@epitech.eu`
+
+
+
+- ## /!\ Don't forget to charge the batteries
+
+
