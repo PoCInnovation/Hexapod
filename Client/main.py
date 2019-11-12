@@ -6,11 +6,13 @@ from hardcoded_movements import *
 from hexapod_connection import*
 import sys
 
+
 class Hexapod:
     def __init__(self, mode):
         self.connection = HexapodConnection(mode=mode)
         self.hexapod_movements = HardcodedMovements(self.connection)
-        self.valid_commands = ["help", "sit", "stand", "forward", "dab", "wave", "stand1", "stand2", "stand3"]
+        self.valid_commands = [
+            "help", "sit", "stand", "forward", "dab", "wave", "stand1", "stand2", "stand3"]
         self.position = "sit"
         self.start_prompt()
 
@@ -57,6 +59,7 @@ class Hexapod:
     def do_action(self, command):
         print("Command:", command)
         getattr(self.hexapod_movements, command)()
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2 and sys.argv[1] == "--wire":

@@ -4,6 +4,7 @@ from values import *
 from hexapod_connection import*
 import sys
 
+
 class Hexapod:
     def __init__(self, mode):
         self.connection = HexapodConnection(mode=mode)
@@ -20,6 +21,7 @@ class Hexapod:
 
     def send_command(self, command):
         self.connection.send_command(command, 0)
+
 
 if __name__ == '__main__':
     if len(sys.argv) == 2 and sys.argv[1] == "--wire":
