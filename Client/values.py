@@ -50,3 +50,30 @@ HORI_VALUES = [
      minMaxValues["minRHori"]
      ],
 ]
+
+ENGINES_KNEE = [
+    FRON_R_KNEE, FRON_L_KNEE,
+    MIDD_R_KNEE, MIDD_L_KNEE,
+    REAR_R_KNEE, REAR_L_KNEE
+]
+
+ENGINES_HORI = [
+    FRON_R_HORI, FRON_L_HORI,
+    MIDD_R_HORI, MIDD_L_HORI,
+    REAR_R_HORI, REAR_L_HORI
+]
+
+ENGINE_VERT = [
+    FRON_R_VERT, FRON_L_VERT,
+    MIDD_R_VERT, MIDD_L_VERT,
+    REAR_R_VERT, REAR_L_VERT
+]
+
+def is_knee(engine):
+    return engine in ENGINES_KNEE
+
+def is_vert(engine):
+    return engine in ENGINE_VERT
+
+def is_hori(engine):
+    return engine in ENGINES_HORI
