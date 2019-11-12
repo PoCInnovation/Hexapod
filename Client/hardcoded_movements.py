@@ -151,8 +151,46 @@ class HardcodedMovements:
             getattr(self.hexapod, "move_" + kind)(engine, 0.2, 0)
 
     def forward(self):
-        command = "RH 2100 RM 1400 RL 1000 LH 500 LM 1400 LL 1800 VS 500 LF 800 LR 1700 RF 1700 RR 800 HT 500 XL 20 XR 20 XS 170!"
-        self.connection.send_command(command, 0)
+        #  command = "RH 2100 RM 1400 RL 1000 LH 500 LM 1400 LL 1800 VS 500 LF 800 LR 1700 RF 1700 RR 800 HT 500 XL 20 XR 20 XS 170!"
+        #  self.connection.send_command(command, 0)
+        while 1:
+            self.hexapod.move_vert(FRON_R_VERT,0.45, 0)
+            self.hexapod.move_vert(MIDD_L_VERT,0.45, 0)
+            self.hexapod.move_vert(REAR_R_VERT,0.45, 0.6)
+
+
+            self.hexapod.move_hori(FRON_R_HORI,0.2, 0)
+            self.hexapod.move_hori(MIDD_L_HORI,0.7, 0)
+            self.hexapod.move_hori(REAR_R_HORI,0.6, 0.6)
+
+            self.hexapod.move_vert(FRON_R_VERT,0.2, 0)
+            self.hexapod.move_vert(MIDD_L_VERT,0.2, 0)
+            self.hexapod.move_vert(REAR_R_VERT,0.2, 0.6)
+
+
+            self.hexapod.move_hori(MIDD_R_HORI, 0.5, 0)
+            self.hexapod.move_hori(REAR_L_HORI, 0.3, 0)
+            self.hexapod.move_hori(REAR_R_HORI, 0.7, 0)
+
+
+            self.hexapod.move_vert(FRON_L_VERT,0.45, 0)
+            self.hexapod.move_vert(MIDD_R_VERT,0.45, 0)
+            self.hexapod.move_vert(REAR_L_VERT,0.45, 0.6)
+
+
+            self.hexapod.move_hori(FRON_L_HORI,0.8, 0)
+            self.hexapod.move_hori(MIDD_R_HORI,0.4, 0)
+            self.hexapod.move_hori(REAR_L_HORI,0.5, 0.6)
+
+            self.hexapod.move_vert(FRON_L_VERT,0.2, 0)
+            self.hexapod.move_vert(MIDD_R_VERT,0.2, 0)
+            self.hexapod.move_vert(REAR_L_VERT,0.2, 0.6)
+
+            self.hexapod.move_hori(FRON_L_HORI, 0.7, 0)
+            self.hexapod.move_hori(FRON_R_HORI, 0.3, 0)
+            self.hexapod.move_hori(MIDD_L_HORI, 0.5, 0.6)
+
+
 
     def stop(self):
         commmand = "XSTOP!"
