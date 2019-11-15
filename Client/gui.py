@@ -184,6 +184,16 @@ class Gui:
             #  vals = KNEE_VALUES
         return angle * (vals[side][0] - vals[side][1]) + vals[side][1]
 
+    def angle_to_ratio(self, angle, engine, kind):
+        side = engine <= 15   # We need to know which side the engine is on
+        if kind == "v":
+            vals = VERT_VALUES
+        elif kind == "h":
+            vals = HORI_VALUES
+        else: # k
+            vals = KNEE_VALUES
+        return (angle - vals[side][1]) / (vals[side][0] - vals[side][1])
+
     def send_live(self, event=None):
         if self.live_var.get() == 1:
             self.send()
