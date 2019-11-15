@@ -29,7 +29,7 @@ ENGINES = {
 }
 
 class RadiobuttonGroup:
-    def __init__(self, vals, etiqs, default_value, row, fen):
+    def __init__(self, vals, etiqs, default_value, row, fen, func=None):
         if len(vals) != len(etiqs):
             print("len differs")
             exit(1)
@@ -37,7 +37,7 @@ class RadiobuttonGroup:
         self.var.set(default_value)
         self.btn = []
         for i in range(len(vals)):
-            self.btn.append(Radiobutton(fen, variable=self.var, text=etiqs[i], value=vals[i]))
+            self.btn.append(Radiobutton(fen, variable=self.var, text=etiqs[i], value=vals[i], command=func))
             self.btn[i].grid(column=1 + i, row=row)
 
     def get(self):
@@ -53,16 +53,18 @@ class RadiobuttonGroup:
 
 class Gui:
     def __init__(self, mode):
-        self.fen = Tk()
-
-        self.fen.geometry("1280x520")
-        self.fen.title("Hexapod Client")
         self.connection = HexapodConnection(mode=mode)
         self.hardcoded_movements = hardcoded_movements.HardcodedMovements(self.connection)
+        self.setup_window()
+
+    def setup_window(self):
+        self.fen = Tk()
+        self.fen.geometry("1280x520")
+        self.fen.title("Hexapod Client")
 
         self.btn_side = RadiobuttonGroup(['l', 'r'], ['Left', 'Right'], 'l', 1, self.fen)
         self.btn_zone = RadiobuttonGroup(['f', 'm', 'r'], ['Front', 'Middle', 'Rear'], 'f', 2, self.fen)
-        self.btn_type = RadiobuttonGroup(['k', 'v', 'h'], ['Knee', 'Verti', 'Hori'], 'k', 3, self.fen)
+        self.btn_type = RadiobuttonGroup(['k', 'v', 'h'], ['Knee', 'Verti', 'Hori'], 'k', 3, self.fen, self.set_angle_equivalent)
 
         # Type all
         self.type_all = IntVar()
@@ -77,10 +79,8 @@ class Gui:
         # angle
         self.angle = DoubleVar()
         self.angle.set(0.5)
-        self.custom_angle = IntVar()
-        self.btn_enable_custom_angle = Checkbutton(self.fen, text="use custom", variable=self.custom_angle, command=self.change_angle_scale_state)
-        self.btn_enable_custom_angle.grid(row=5, column=2)
-        self.custom_angle_ent = Entry(self.fen, width=5, textvariable=self.angle, state='disable')
+        self.angle.trace('w', self.set_angle_equivalent)
+        self.custom_angle_ent = Entry(self.fen, width=5, textvariable=self.angle)
         self.custom_angle_ent.grid(column=1, row=5)
         self.scale_angle = Scale(self.fen, orient='horizontal', from_=0, to=1, resolution=0.05, tickinterval=0.05, length=800, variable=self.angle, command=self.send_live)
         self.scale_angle.grid(column=1, row=4, columnspan=8)
@@ -88,34 +88,42 @@ class Gui:
         self.set_angle_equivalent()
         Label(self.fen, text="Angle Equivalent  --> ").grid(column=7, row=5)
         self.label_angle_equivalent = Label(self.fen, textvariable=self.angle_equivalent)
-        self.label_angle_equivalent.grid(column=8, row=5)
+        self.label_angle_equivalent.grid(column=8, row=5, columnspan=2)
 
         # min/max scale
-        self.min_max_enable = IntVar()
-        self.min_max_enable.set(0)
-        self.btn_enable_custom_minmax = Checkbutton(self.fen, text="use custom min/max", variable=self.min_max_enable, command=self.change_min_max_state)
-        self.btn_enable_custom_minmax.grid(row=1, column=9)
+        #  self.min_max_enable = IntVar()
+        #  self.min_max_enable.set(0)
+        #  self.btn_enable_custom_minmax = Checkbutton(self.fen, text="use custom min/max")
+        #  self.btn_enable_custom_minmax.grid(row=1, column=9)
 
-        self.min_scale = Scale(self.fen, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='min', state='disable')
+        self.min = IntVar()
+        self.max = IntVar()
+        self.set_min_max()
+        self.min_scale = Scale(self.fen, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='min', variable=self.min)
         self.min_scale.grid(column=10, row=1, rowspan=12)
-        self.max_scale = Scale(self.fen, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='max', state='disable')
+        self.max_scale = Scale(self.fen, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='max', variable=self.max)
         self.max_scale.grid(column=11, row=1, rowspan=12)
 
         # speed
         self.speed = IntVar()
         self.speed.set(1500)
-        self.custom_speed = IntVar()
-        self.btn_enable_custom_speed = Checkbutton(self.fen, text="use custom", variable=self.custom_speed, command=self.change_speed_scale_state)
-        self.btn_enable_custom_speed.grid(row=7, column=2)
-        self.custom_speed_ent = Entry(self.fen, width=5, textvariable=self.speed, state='disable')
+        self.custom_speed_ent = Entry(self.fen, width=5, textvariable=self.speed)
         self.custom_speed_ent.grid(column=1, row=7)
         self.scale_speed = Scale(self.fen, orient='horizontal', from_=0, to=3000, resolution=50, tickinterval=200, length=800, variable=self.speed)
         self.scale_speed.grid(column=1, row=6, columnspan=8)
 
-        # actions
-        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop"]
-        for i in range(len(self.action_btn)):
-            Button(self.fen, text=self.action_btn[i], command=getattr(self.hardcoded_movements, self.action_btn[i])).grid(row=9, column=i+1, pady=10)
+        # Actions
+        self.action_btn_frame = Frame(self.fen)
+        Label(self.action_btn_frame, text='Action :').grid(column=1, row=1)
+        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop", "forward_2"]
+        i, j = 1, 1
+        for k in range(len(self.action_btn)):
+            Button(self.action_btn_frame, text=self.action_btn[k], command=getattr(self.hardcoded_movements, self.action_btn[k])).grid(row=2 + j, column=i, padx=5)
+            i += 1
+            if i > 10:
+                i = 1
+                j += 1
+        self.action_btn_frame.grid(row=9, column=1, columnspan=7)
 
         # Ok
         self.btn_send = Button(self.fen, text="send", command=self.send)
@@ -124,36 +132,26 @@ class Gui:
         self.fen.bind_all("<Escape>", self.quit)
         self.fen.mainloop()
 
-    def change_min_max_state(self):
-        if self.min_max_enable.get() == 1:
-            self.min_scale.config(state='normal')
-            self.max_scale.config(state='normal')
-        else:
-            self.min_scale.config(state='disable')
-            self.max_scale.config(state='disable')
+    #  def change_min_max_state(self):
+        #  if self.min_max_enable.get() == 1:
+            #  self.min_scale.config(state='normal')
+            #  self.max_scale.config(state='normal')
+        #  else:
+            #  self.min_scale.config(state='disable')
+            #  self.max_scale.config(state='disable')
 
-    def set_angle_equivalent(self):
+    def set_min_max(self):
+        engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
+        vals = get_engine_min_max(engine)
+        self.max.set(vals[0])
+        self.min.set(vals[1])
+
+    def set_angle_equivalent(self, *args):
         angle = float(self.angle.get())
         engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
         self.btn_type.get()
         val = self.convert_angle(angle, engine, self.btn_type.get())
         self.angle_equivalent.set(val)
-
-    def change_angle_scale_state(self, event=None):
-        if self.custom_angle.get() == 1:
-            self.live_var.set(0)
-            self.btn_live.config(state='disable')
-            self.btn_send.config(state='normal')
-            self.custom_angle_ent.config(state='normal')
-        else:
-            self.btn_live.config(state='normal')
-            self.custom_angle_ent.config(state='disable')
-
-    def change_speed_scale_state(self, event=None):
-        if self.custom_speed.get() == 1:
-            self.custom_speed_ent.config(state='normal')
-        else:
-            self.custom_speed_ent.config(state='disable')
 
     def disable_toggle(self):
         if self.type_all.get() == 1:
@@ -177,6 +175,13 @@ class Gui:
             vals = HORI_VALUES
         else: # k
             vals = KNEE_VALUES
+        # TODO
+        #  if is_vert(engine)
+            #  vals = VERT_VALUES
+        #  elif is_hori(engine):
+            #  vals = HORI_VALUES
+        #  else: # engine is knee
+            #  vals = KNEE_VALUES
         return angle * (vals[side][0] - vals[side][1]) + vals[side][1]
 
     def send_live(self, event=None):
