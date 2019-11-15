@@ -77,3 +77,14 @@ def is_vert(engine):
 
 def is_hori(engine):
     return engine in ENGINES_HORI
+
+def get_engine_min_max(engine):
+    index = int(engine < 15)
+
+    if is_hori(engine):
+        return HORI_VALUES[index]
+    if is_vert(engine):
+        return VERT_VALUES[index]
+    if is_knee(engine):
+        return KNEE_VALUES[index]
+
