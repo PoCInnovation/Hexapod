@@ -62,8 +62,22 @@ class HexapodConnection:
             return
         ENGINES_POSITION[engine] = position
 
-    def get_engine_position(engine):
-        return ENGINES_POSITION[engine]
+    def get_engine_position(self, engine):
+        if type(engine) == str:
+            if engine == 'all':
+                return ENGINES_POSITION
+        elif type(engine) == int:
+            return ENGINES_POSITION[engine]
+
+    def convert_angle(self, angle, engine, kind):
+        side = engine <= 15   # We need to know which side the engine is on
+        if kind == "v":
+            vals = VERT_VALUES
+        elif kind == "h":
+            vals = HORI_VALUES
+        else:  # k
+            vals = KNEE_VALUES
+        return angle * (vals[side][0] - vals[side][1]) + vals[side][1]
 
     def send_command(self, command, sleep_time):
         if self.mode == "wifi":
