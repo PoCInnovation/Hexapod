@@ -1,6 +1,10 @@
 # Hexapod
 
-## Quick use
+
+## Quick start
+
+The Hexapod can be controlled using a tkinter GUI or with a more classic prompt.
+Both work the same way and are easy to use.
 
 1. Plug in the battery
 
@@ -8,7 +12,7 @@
 
 3. connect to the Hexapod wifi (no password required)
 
-4. launch Client/gui.py
+4 launch Client/gui.py or Client/main.py
 
 5. once you're on the gui juste use the action buttons (sit, stand, walk...)
 
