@@ -29,26 +29,20 @@ class Hexapod_movements:
         self.hexapod_connection = connection
         self.movements_speed = 700
 
-    def move_engine(self, articulation, deg, speed, tab, sleep_time):
-        side = articulation <= 15           # We need to know which side the engine is on
-        # Convert ratio 0-1 to the engine min-max value
-        deg = deg * (tab[side][0] - tab[side][1]) + tab[side][1]
-        command = "#%dP%.0fS%d!" % (
-            articulation, deg, speed)   # Command to send
+    def move_engine(self, engine, angle, speed, sleep_time):
+        angle = convert_angle(angle, engine)
+        command = "#%dP%.0fS%d!" % (engine, angle, speed)   # Command to send
         #          #=pin P=position S=speed !=EOL for arduino decode
         self.hexapod_connection.send_command(command, sleep_time)
 
-    def move_knee(self, articulation, deg, sleep):
-        self.move_engine(articulation, deg,
-                         self.movements_speed, KNEE_VALUES, sleep)
+    def move_knee(self, engine, angle, sleep):
+        self.move_engine(engine, angle, self.movements_speed, sleep)
 
-    def move_vert(self, articulation, deg, sleep):
-        self.move_engine(articulation, deg,
-                         self.movements_speed, VERT_VALUES, sleep)
+    def move_vert(self, engine, angle, sleep):
+        self.move_engine(engine, angle, self.movements_speed, sleep)
 
-    def move_hori(self, articulation, deg, sleep):
-        self.move_engine(articulation, deg,
-                         self.movements_speed, HORI_VALUES, sleep)
+    def move_hori(self, engine, angle, sleep):
+        self.move_engine(engine, angle, self.movements_speed, sleep)
 
 
 class HardcodedMovements:
@@ -57,7 +51,7 @@ class HardcodedMovements:
         self.hexapod = Hexapod_movements(connection)
         self.sleep_action_time = 0.25
 
-    def move_kind(self, kind, deg):
+    def move_kind(self, kind, angle):
         affected_engines = []
         for key in ENGINES:
             if kind in key:

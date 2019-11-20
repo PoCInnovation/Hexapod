@@ -59,7 +59,6 @@ class HexapodConnection:
             position = int(command[command.index('P') + 1:command.index('S')])
         except:
             print("Could not save engine position with the command", command)
-            return
         ENGINES_POSITION[engine] = position
 
     def get_engine_position(self, engine):
@@ -69,19 +68,8 @@ class HexapodConnection:
         elif type(engine) == int:
             return ENGINES_POSITION[engine]
 
-    def convert_angle(self, angle, engine, kind):
-        side = engine <= 15   # We need to know which side the engine is on
-        if kind == "v":
-            vals = VERT_VALUES
-        elif kind == "h":
-            vals = HORI_VALUES
-        else:  # k
-            vals = KNEE_VALUES
-        return angle * (vals[side][0] - vals[side][1]) + vals[side][1]
-
     def send_command(self, command, sleep_time):
         if self.mode == "wifi":
-            print(command)
             command = bytes(command.encode('utf-8'))
             try:
                 self.socket.send(command)
@@ -93,6 +81,6 @@ class HexapodConnection:
             command.replace('!', '')
             t = 'echo "' + command + '" > /dev/ttyUSB0'
             os.system(t)
-        #  print(command)
+        print("sending : ", command)
         self.save_engine_position(command)
         time.sleep(sleep_time)

@@ -63,7 +63,7 @@ ENGINE_REAR = [
 # ENGINE TYPE
 KNEE    = 0
 HORI    = 1
-REAR    = 2
+VERT    = 2
 
 # ENGINE ZONES
 FRONT   = 0

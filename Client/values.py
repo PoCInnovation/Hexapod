@@ -46,3 +46,7 @@ def get_engine_min_max(engine):
     engine_side = get_engine_side(engine)
 
     return MIN_MAX_ENGINES[engine_type][engine_zone][engine_side]
+
+def convert_angle(angle, engine):
+    vals = get_engine_min_max(engine)
+    return angle * (vals[0] - vals[1]) + vals[1]

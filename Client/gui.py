@@ -150,7 +150,7 @@ class Gui:
         angle = float(self.angle.get())
         engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
         self.btn_type.get()
-        val = self.convert_angle(angle, engine, self.btn_type.get())
+        val = convert_angle(angle, engine)
         self.angle_equivalent.set(val)
 
     def disable_toggle(self):
@@ -166,23 +166,6 @@ class Gui:
             self.btn_send.config(state='disable')
         else:
             self.btn_send.config(state='normal')
-
-    def convert_angle(self, angle, engine, kind):
-        side = engine <= 15   # We need to know which side the engine is on
-        if kind == "v":
-            vals = VERT_VALUES
-        elif kind == "h":
-            vals = HORI_VALUES
-        else: # k
-            vals = KNEE_VALUES
-        # TODO
-        #  if is_vert(engine)
-            #  vals = VERT_VALUES
-        #  elif is_hori(engine):
-            #  vals = HORI_VALUES
-        #  else: # engine is knee
-            #  vals = KNEE_VALUES
-        return angle * (vals[side][0] - vals[side][1]) + vals[side][1]
 
     def angle_to_ratio(self, angle, engine, kind):
         side = engine <= 15   # We need to know which side the engine is on
@@ -210,13 +193,13 @@ class Gui:
             for key, value in ENGINES.items():
                 if self.btn_type.get() not in key:
                     continue
-                angle = self.convert_angle(initial_angle, value, key[2])
+                angle = convert_angle(initial_angle, value)
                 if command != "":
                     command += " "
                 command += "#%dP%.0fS%d" % (value, angle, speed)
             command += '!'
         else:
-            angle = self.convert_angle(angle, engine, self.btn_type.get())
+            angle = convert_angle(angle, engine)
             command = "#%dP%.0fS%d!" % (engine, angle, speed)   # Command to send
         self.connection.send_command(command, 0)
 
