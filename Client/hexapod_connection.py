@@ -13,18 +13,18 @@ ENGINES_POSITION = {
     REAR_L_HORI: 0,
     REAR_L_VERT: 0,
     REAR_L_KNEE: 0,
-    MIDD_R_HORI: 0,
-    MIDD_R_VERT: 0,
-    MIDD_R_KNEE: 0,
-    MIDD_L_HORI: 0,
-    MIDD_L_VERT: 0,
-    MIDD_L_KNEE: 0,
-    FRON_R_HORI: 0,
-    FRON_R_VERT: 0,
-    FRON_R_KNEE: 0,
-    FRON_L_HORI: 0,
-    FRON_L_VERT: 0,
-    FRON_L_KNEE: 0
+    MIDDLE_R_HORI: 0,
+    MIDDLE_R_VERT: 0,
+    MIDDLE_R_KNEE: 0,
+    MIDDLE_L_HORI: 0,
+    MIDDLE_L_VERT: 0,
+    MIDDLE_L_KNEE: 0,
+    FRONT_R_HORI: 0,
+    FRONT_R_VERT: 0,
+    FRONT_R_KNEE: 0,
+    FRONT_L_HORI: 0,
+    FRONT_L_VERT: 0,
+    FRONT_L_KNEE: 0
 }
 
 

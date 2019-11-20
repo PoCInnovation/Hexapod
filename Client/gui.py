@@ -14,18 +14,18 @@ ENGINES = {
     "rlh": REAR_L_HORI,
     "rlv": REAR_L_VERT,
     "rlk": REAR_L_KNEE,
-    "mrh": MIDD_R_HORI,
-    "mrv": MIDD_R_VERT,
-    "mrk": MIDD_R_KNEE,
-    "mlh": MIDD_L_HORI,
-    "mlv": MIDD_L_VERT,
-    "mlk": MIDD_L_KNEE,
-    "frh": FRON_R_HORI,
-    "frv": FRON_R_VERT,
-    "frk": FRON_R_KNEE,
-    "flh": FRON_L_HORI,
-    "flv": FRON_L_VERT,
-    "flk": FRON_L_KNEE
+    "mrh": MIDDLE_R_HORI,
+    "mrv": MIDDLE_R_VERT,
+    "mrk": MIDDLE_R_KNEE,
+    "mlh": MIDDLE_L_HORI,
+    "mlv": MIDDLE_L_VERT,
+    "mlk": MIDDLE_L_KNEE,
+    "frh": FRONT_R_HORI,
+    "frv": FRONT_R_VERT,
+    "frk": FRONT_R_KNEE,
+    "flh": FRONT_L_HORI,
+    "flv": FRONT_L_VERT,
+    "flk": FRONT_L_KNEE
 }
 
 class RadiobuttonGroup:
