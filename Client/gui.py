@@ -8,24 +8,24 @@ import hardcoded_movements
 import sys
 
 ENGINES = {
-    "rrh": REAR_R_HORI,
-    "rrv": REAR_R_VERT,
-    "rrk": REAR_R_KNEE,
-    "rlh": REAR_L_HORI,
-    "rlv": REAR_L_VERT,
-    "rlk": REAR_L_KNEE,
-    "mrh": MIDDLE_R_HORI,
-    "mrv": MIDDLE_R_VERT,
-    "mrk": MIDDLE_R_KNEE,
-    "mlh": MIDDLE_L_HORI,
-    "mlv": MIDDLE_L_VERT,
-    "mlk": MIDDLE_L_KNEE,
-    "frh": FRONT_R_HORI,
-    "frv": FRONT_R_VERT,
-    "frk": FRONT_R_KNEE,
-    "flh": FRONT_L_HORI,
-    "flv": FRONT_L_VERT,
-    "flk": FRONT_L_KNEE
+    "flh": HORI_FRONT_L,
+    "flk": KNEE_FRONT_L,
+    "flv": VERT_FRONT_L,
+    "frh": HORI_FRONT_R,
+    "frk": KNEE_FRONT_R,
+    "frv": VERT_FRONT_R,
+    "mlh": HORI_MIDDLE_L,
+    "mlk": KNEE_MIDDLE_L,
+    "mlv": VERT_MIDDLE_L,
+    "mrh": HORI_MIDDLE_R,
+    "mrk": KNEE_MIDDLE_R,
+    "mrv": VERT_MIDDLE_R,
+    "rlh": HORI_REAR_L,
+    "rlk": KNEE_REAR_L,
+    "rlv": VERT_REAR_L,
+    "rrh": HORI_REAR_R,
+    "rrk": KNEE_REAR_R,
+    "rrv": VERT_REAR_R
 }
 
 class RadiobuttonGroup:
@@ -90,12 +90,6 @@ class Gui:
         self.label_angle_equivalent = Label(self.fen, textvariable=self.angle_equivalent)
         self.label_angle_equivalent.grid(column=8, row=5, columnspan=2)
 
-        # min/max scale
-        #  self.min_max_enable = IntVar()
-        #  self.min_max_enable.set(0)
-        #  self.btn_enable_custom_minmax = Checkbutton(self.fen, text="use custom min/max")
-        #  self.btn_enable_custom_minmax.grid(row=1, column=9)
-
         self.min = IntVar()
         self.max = IntVar()
         self.set_min_max()
@@ -103,6 +97,9 @@ class Gui:
         self.min_scale.grid(column=10, row=1, rowspan=12)
         self.max_scale = Scale(self.fen, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='max', variable=self.max)
         self.max_scale.grid(column=11, row=1, rowspan=12)
+
+        self.btn_save = Button(self.fen, text='save', command=self.save_custom_min_max)
+        self.btn_save.grid(column=12, row = 1, rowspan=12)
 
         # speed
         self.speed = IntVar()
@@ -130,21 +127,21 @@ class Gui:
         self.btn_send.grid(column=1, row=10 ,columnspan=8, pady=20)
 
         self.fen.bind_all("<Escape>", self.quit)
+        self.fen.bind_all("<space>", self.send)
         self.fen.mainloop()
 
-    #  def change_min_max_state(self):
-        #  if self.min_max_enable.get() == 1:
-            #  self.min_scale.config(state='normal')
-            #  self.max_scale.config(state='normal')
-        #  else:
-            #  self.min_scale.config(state='disable')
-            #  self.max_scale.config(state='disable')
+    def save_custom_min_max(self, evt=None):
+        engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
+        new_min = self.min
+        new_max = self.max
+
+        print()
 
     def set_min_max(self):
         engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
         vals = get_engine_min_max(engine)
-        self.max.set(vals[0])
-        self.min.set(vals[1])
+        self.max.set(vals[MAX])
+        self.min.set(vals[MIN])
 
     def set_angle_equivalent(self, *args):
         angle = float(self.angle.get())
