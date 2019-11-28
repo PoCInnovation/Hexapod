@@ -104,9 +104,9 @@ class HardcodedMovements:
         self.move_kind("vert", 0.1)
 
     def wave(self):
+        self.stand1()
         self.hexapod.move_vert(FRON_R_VERT, 1, 0)
         self.hexapod.move_knee(FRON_R_KNEE, 1, 0.5)
-        self.stand1()
         for i in range(5):
             self.hexapod.move_knee(FRON_R_KNEE, 1, 0.5)
             self.hexapod.move_knee(FRON_R_KNEE, 0, 0.5)
