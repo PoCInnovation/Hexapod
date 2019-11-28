@@ -69,7 +69,7 @@ class Gui:
         # Type all
         self.type_all = IntVar()
         self.btn_all = Checkbutton(self.fen, text="All type", variable=self.type_all, command=self.disable_toggle)
-        self.btn_all.grid(row=3, column=5)
+        # self.btn_all.grid(row=3, column=5)
 
         # live
         self.live_var = IntVar()
@@ -115,7 +115,7 @@ class Gui:
         # Actions
         self.action_btn_frame = Frame(self.fen)
         Label(self.action_btn_frame, text='Action :').grid(column=1, row=1)
-        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop"]
+        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab"]
         i, j = 1, 1
         for k in range(len(self.action_btn)):
             Button(self.action_btn_frame, text=self.action_btn[k], command=getattr(self.hardcoded_movements, self.action_btn[k])).grid(row=2 + j, column=i, padx=5)
