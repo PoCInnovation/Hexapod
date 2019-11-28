@@ -1,6 +1,14 @@
 import json
+import os
+import sys
 
-with open('Client/values.json') as json_file:
+VALUES_PATH = 'Client/values.json'
+
+if not os.path.isfile(VALUES_PATH): 
+    print("Please execute from project root directory")
+    sys.exit(1)
+
+with open(VALUES_PATH) as json_file:
     data = json.load(json_file)
     pins = data["pins"]
     minMaxValues = data["minMaxValues"]
