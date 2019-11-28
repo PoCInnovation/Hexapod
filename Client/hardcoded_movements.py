@@ -89,9 +89,9 @@ class HardcodedMovements:
         self.move_kind("vert", 0.6)
 
     def stand1(self):
-        self.place_hori('normal')
         self.move_kind("vert", 0.4)
         self.move_kind("knee", 0.5)
+        self.place_hori('normal')
 
     def stand2(self):
         self.place_hori('normal')
