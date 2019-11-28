@@ -1,6 +1,6 @@
 import json
 
-with open('values.json') as json_file:
+with open('Client/values.json') as json_file:
     data = json.load(json_file)
     pins = data["pins"]
     minMaxValues = data["minMaxValues"]
