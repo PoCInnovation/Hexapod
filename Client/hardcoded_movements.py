@@ -114,6 +114,7 @@ class HardcodedMovements:
         self.stand1()
 
     def dab(self):
+        self.stand1()
         self.hexapod.move_vert(MIDD_L_VERT, 0.6, 0)
         self.hexapod.move_vert(MIDD_R_VERT, 0.6, self.sleep_action_time)
         self.hexapod.move_hori(MIDD_L_HORI, 0.7, 0)
@@ -130,19 +131,8 @@ class HardcodedMovements:
         self.hexapod.move_vert(FRON_R_VERT, 0.3, self.sleep_action_time)
 
         time.sleep(2)  # wait for a bit in dab position
-        # self.stand() # <-- TO BE TESTED
 
-        self.hexapod.move_vert(FRON_R_VERT, 1, self.sleep_action_time)
-        self.hexapod.move_vert(FRON_L_VERT, 0.4, 0)
-        self.hexapod.move_knee(FRON_L_KNEE, 0.5, 0)
-        self.hexapod.move_knee(FRON_R_KNEE, 0.5, self.sleep_action_time)
-        self.hexapod.move_vert(FRON_R_VERT, 0.5, self.sleep_action_time)
-        self.hexapod.move_vert(MIDD_L_VERT, 0.6, 0)
-        self.hexapod.move_vert(MIDD_R_VERT, 0.6, self.sleep_action_time + 0.25)
-        self.hexapod.move_hori(MIDD_L_HORI, 0.5, 0)
-        self.hexapod.move_hori(MIDD_R_HORI, 0.5, self.sleep_action_time)
-        self.hexapod.move_vert(MIDD_L_VERT, 0.4, 0)
-        self.hexapod.move_vert(MIDD_R_VERT, 0.4, self.sleep_action_time)
+        self.stand1()
 
     def move_knee_up(self):
         kind = 'vert'
