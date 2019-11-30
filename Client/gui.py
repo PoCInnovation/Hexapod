@@ -1,11 +1,12 @@
 #!/usr/bin/python3
 
-from tkinter import*
-from tkinter import messagebox
-from values import *
-from hexapod_connection import*
 import hardcoded_movements
 import sys
+from constants import *
+from hexapod_connection import*
+from tkinter import*
+from values import *
+import os
 
 ENGINES = {
     "flh": HORI_FRONT_L,
@@ -38,7 +39,7 @@ class RadiobuttonGroup:
         self.btn = []
         for i in range(len(vals)):
             self.btn.append(Radiobutton(fen, variable=self.var, text=etiqs[i], value=vals[i], command=func))
-            self.btn[i].grid(column=1 + i, row=row)
+            self.btn[i].grid(column=1 + i, row=row, pady=5, padx=20)
 
     def get(self):
         return self.var.get()
@@ -57,61 +58,84 @@ class Gui:
         self.hardcoded_movements = hardcoded_movements.HardcodedMovements(self.connection)
         self.setup_window()
 
-    def setup_window(self):
-        self.fen = Tk()
-        self.fen.geometry("1280x520")
-        self.fen.title("Hexapod Client")
+    def place_engines_frame(self):
+        self.engine_frame = LabelFrame(self.testing_frame, pady=2, text='Engine :', labelanchor='nw')
+        self.btn_side = RadiobuttonGroup(['l', 'r'], ['Left', 'Right'], 'l', 1, self.engine_frame)
+        self.btn_zone = RadiobuttonGroup(['f', 'm', 'r'], ['Front', 'Middle', 'Rear'], 'f', 2, self.engine_frame)
+        self.btn_type = RadiobuttonGroup(['k', 'v', 'h'], ['Knee', 'Verti', 'Hori'], 'k', 3, self.engine_frame, self.set_angle_equivalent)
 
-        self.btn_side = RadiobuttonGroup(['l', 'r'], ['Left', 'Right'], 'l', 1, self.fen)
-        self.btn_zone = RadiobuttonGroup(['f', 'm', 'r'], ['Front', 'Middle', 'Rear'], 'f', 2, self.fen)
-        self.btn_type = RadiobuttonGroup(['k', 'v', 'h'], ['Knee', 'Verti', 'Hori'], 'k', 3, self.fen, self.set_angle_equivalent)
-
-        # Type all
         self.type_all = IntVar()
-        self.btn_all = Checkbutton(self.fen, text="All type", variable=self.type_all, command=self.disable_toggle)
+        self.btn_all = Checkbutton(self.engine_frame, text="All type", variable=self.type_all, command=self.disable_toggle)
         self.btn_all.grid(row=3, column=5)
 
-        # live
         self.live_var = IntVar()
-        self.btn_live = Checkbutton(self.fen, text="Live", variable=self.live_var, command=self.change_send_btn_state)
+        self.btn_live = Checkbutton(self.engine_frame, text="Live", variable=self.live_var, command=self.change_send_btn_state)
         self.btn_live.grid(row=3, column=6)
 
-        # angle
-        self.angle = DoubleVar()
-        self.angle.set(0.5)
-        self.angle.trace('w', self.set_angle_equivalent)
-        self.custom_angle_ent = Entry(self.fen, width=5, textvariable=self.angle)
-        self.custom_angle_ent.grid(column=1, row=5)
-        self.scale_angle = Scale(self.fen, orient='horizontal', from_=0, to=1, resolution=0.05, tickinterval=0.05, length=800, variable=self.angle, command=self.send_live)
-        self.scale_angle.grid(column=1, row=4, columnspan=8)
-        self.angle_equivalent = IntVar()
-        self.set_angle_equivalent()
-        Label(self.fen, text="Angle Equivalent  --> ").grid(column=7, row=5)
-        self.label_angle_equivalent = Label(self.fen, textvariable=self.angle_equivalent)
-        self.label_angle_equivalent.grid(column=8, row=5, columnspan=2)
+        self.engine_frame.grid(row=1, column=1)
 
+    def place_angle_frame(self):
+        self.angle_equivalent = IntVar()
+        self.angle = DoubleVar()
+
+        self.angle.set(0.5)
+        self.set_angle_equivalent()
+        self.angle.trace('w', self.set_angle_equivalent)
+
+        self.angle_frame = LabelFrame(self.testing_frame, pady=2, text='Angle :', labelanchor='nw')
+        # Scale
+        self.scale_angle = Scale(self.angle_frame, orient='horizontal', from_=0, to=1, resolution=0.05, tickinterval=0.05, length=800, variable=self.angle, command=self.send_live)
+        self.scale_angle.grid(column=1, row=1, columnspan=8)
+        # Entry
+        self.custom_angle_ent = Entry(self.angle_frame, width=5, textvariable=self.angle)
+        self.custom_angle_ent.grid(column=1, row=2)
+        # Angle Equivalent
+        Label(self.angle_frame, text="Angle Equivalent: ").grid(column=7, row=2)
+        self.label_angle_equivalent = Label(self.angle_frame, textvariable=self.angle_equivalent)
+        self.label_angle_equivalent.grid(column=8, row=2)
+
+        self.angle_frame.grid(column=1, row=2, padx=10, pady=10, columnspan=8)
+
+    def place_speed_frame(self):
+        # speed
+        self.speed_frame = LabelFrame(self.testing_frame, pady=2, text='Speed :', labelanchor='nw')
+        self.speed = IntVar()
+        self.speed.set(1500)
+        self.custom_speed_ent = Entry(self.speed_frame, width=5, textvariable=self.speed)
+        self.custom_speed_ent.grid(column=1, row=2)
+        self.scale_speed = Scale(self.speed_frame, orient='horizontal', from_=0, to=3000, resolution=50, tickinterval=200, length=800, variable=self.speed)
+        self.scale_speed.grid(column=1, row=1, columnspan=10)
+        self.speed_frame.grid(column=1, row=3, columnspan=8)
+
+    def place_testing_frame(self):
+        self.testing_frame = LabelFrame(self.fen, relief='sunken', pady=2, text='Testing :', labelanchor='n')
+        self.place_engines_frame()
+        self.place_angle_frame()
+        self.place_speed_frame()
+        self.btn_send = Button(self.testing_frame, text="send", command=self.send)
+        self.btn_send.grid(column=1, row=4 ,columnspan=8, pady=20)
+        Button(self.testing_frame, text="Magic Button\n(JPO Epitech)", command=self.magic_for_jpo).grid(column=7, row=4)
+        self.testing_frame.grid(column=1, row=1, padx=10)
+
+    def magic_for_jpo(self):
+        os.system('firefox https://www.youtube.com/watch?v=dQw4w9WgXcQ')
+
+    def place_min_max_frame(self):
+        self.min_max_frame = LabelFrame(self.fen , pady=2, text='Min/Max :', relief='sunken',labelanchor='n')
         self.min = IntVar()
         self.max = IntVar()
         self.set_min_max()
-        self.min_scale = Scale(self.fen, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='min', variable=self.min)
-        self.min_scale.grid(column=10, row=1, rowspan=12)
-        self.max_scale = Scale(self.fen, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='max', variable=self.max)
-        self.max_scale.grid(column=11, row=1, rowspan=12)
+        self.min_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='min', variable=self.min)
+        self.min_scale.grid(column=1, row=1)
+        self.max_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='max', variable=self.max)
+        self.max_scale.grid(column=2, row=1)
 
-        self.btn_save = Button(self.fen, text='save', command=self.save_custom_min_max)
-        self.btn_save.grid(column=12, row = 1, rowspan=12)
+        self.btn_save = Button(self.min_max_frame, text='save', command=self.save_custom_min_max)
+        self.btn_save.grid(column=1, row=2, columnspan=2, pady=10)
+        self.min_max_frame.grid(column=2, row=1, rowspan=7)
 
-        # speed
-        self.speed = IntVar()
-        self.speed.set(1500)
-        self.custom_speed_ent = Entry(self.fen, width=5, textvariable=self.speed)
-        self.custom_speed_ent.grid(column=1, row=7)
-        self.scale_speed = Scale(self.fen, orient='horizontal', from_=0, to=3000, resolution=50, tickinterval=200, length=800, variable=self.speed)
-        self.scale_speed.grid(column=1, row=6, columnspan=8)
-
-        # Actions
-        self.action_btn_frame = Frame(self.fen)
-        Label(self.action_btn_frame, text='Action :').grid(column=1, row=1)
+    def place_action_frame(self):
+        self.action_btn_frame = LabelFrame(self.fen, bd=2, relief='sunken', pady=20, text='Actions :', labelanchor='n', padx=25)
         self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop", "forward_2"]
         i, j = 1, 1
         for k in range(len(self.action_btn)):
@@ -120,22 +144,35 @@ class Gui:
             if i > 10:
                 i = 1
                 j += 1
-        self.action_btn_frame.grid(row=9, column=1, columnspan=7)
+        self.action_btn_frame.grid(row=5, column=1)
 
-        # Ok
-        self.btn_send = Button(self.fen, text="send", command=self.send)
-        self.btn_send.grid(column=1, row=10 ,columnspan=8, pady=20)
-
+    def setup_window(self):
+        self.fen = Tk()
+        self.fen.geometry("1150x590")
+        self.fen.title("Hexapod Client")
+        self.place_testing_frame()
+        self.place_min_max_frame()
+        self.place_action_frame()
         self.fen.bind_all("<Escape>", self.quit)
         self.fen.bind_all("<space>", self.send)
         self.fen.mainloop()
 
-    def save_custom_min_max(self, evt=None):
+    def update_engine_min_max(self):
         engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
-        new_min = self.min
-        new_max = self.max
+        new_min = self.min.get()
+        new_max = self.max.get()
 
-        print()
+        engine_min_max = get_engine_min_max(engine)
+        if engine_min_max[MIN] == new_min and engine_min_max[MAX]== new_max:
+            return;
+
+        # print(MIN_MAX_ENGINES[])
+        # print("LA ", new_min, new_max)
+        print("ICI : " , engine_min_max)
+
+    def save_custom_min_max(self, evt=None):
+        print(MIN_MAX_ENGINES)
+
 
     def set_min_max(self):
         engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
