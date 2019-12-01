@@ -6,7 +6,6 @@ from constants import *
 from hexapod_connection import*
 from tkinter import*
 from values import *
-import os
 
 ENGINES = {
     "flh": HORI_FRONT_L,
@@ -114,11 +113,7 @@ class Gui:
         self.place_speed_frame()
         self.btn_send = Button(self.testing_frame, text="send", command=self.send)
         self.btn_send.grid(column=1, row=4 ,columnspan=8, pady=20)
-        Button(self.testing_frame, text="Magic Button\n(JPO Epitech)", command=self.magic_for_jpo).grid(column=7, row=4)
         self.testing_frame.grid(column=1, row=1, padx=10)
-
-    def magic_for_jpo(self):
-        os.system('firefox https://www.youtube.com/watch?v=dQw4w9WgXcQ')
 
     def place_min_max_frame(self):
         self.min_max_frame = LabelFrame(self.fen , pady=2, text='Min/Max :', relief='sunken',labelanchor='n')
