@@ -83,9 +83,9 @@ class HardcodedMovements:
         self.move_kind("vert", 0.6)
 
     def stand1(self):
-        self.place_hori('normal')
         self.move_kind("vert", 0.4)
         self.move_kind("knee", 0.5)
+        self.place_hori('normal')
 
     def stand2(self):
         self.place_hori('normal')
@@ -98,9 +98,9 @@ class HardcodedMovements:
         self.move_kind("vert", 0.1)
 
     def wave(self):
-        self.hexapod.move_vert(VERT_FRONT_R, 1, 0)
-        self.hexapod.move_knee(KNEE_FRONT_R, 1, 0.5)
         self.stand1()
+        self.hexapod.move_vert(FRON_R_VERT, 1, 0)
+        self.hexapod.move_knee(FRON_R_KNEE, 1, 0.5)
         for i in range(5):
             self.hexapod.move_knee(KNEE_FRONT_R, 1, 0.5)
             self.hexapod.move_knee(KNEE_FRONT_R, 0, 0.5)
@@ -108,6 +108,7 @@ class HardcodedMovements:
         self.stand1()
 
     def dab(self):
+        self.stand1()
         self.hexapod.move_vert(VERT_MIDDLE_L, 0.6, 0)
         self.hexapod.move_vert(VERT_MIDDLE_R, 0.6, self.sleep_action_time)
         self.hexapod.move_hori(HORI_MIDDLE_L, 0.7, 0)
@@ -116,27 +117,14 @@ class HardcodedMovements:
         self.hexapod.move_vert(VERT_MIDDLE_R, 0.3, self.sleep_action_time)
         self.hexapod.move_vert(VERT_FRONT_L, 0.7, 0)
         self.hexapod.move_vert(VERT_FRONT_R, 0.7, self.sleep_action_time)
-        self.hexapod.move_hori(HORI_FRONT_L, 0.4, 0)
-        self.hexapod.move_hori(HORI_FRONT_R, 0.6, self.sleep_action_time)
+        self.hexapod.move_hori(HORI_FRONT_L, 0.7, 0)
+        self.hexapod.move_hori(HORI_FRONT_R, 0.35, self.sleep_action_time)
         self.hexapod.move_knee(KNEE_FRONT_L, 1, 0)
         self.hexapod.move_knee(KNEE_FRONT_R, 0, self.sleep_action_time)
         self.hexapod.move_vert(VERT_FRONT_L, 0.7, 0)
         self.hexapod.move_vert(VERT_FRONT_R, 0.3, self.sleep_action_time)
-
         time.sleep(2)  # wait for a bit in dab position
-        # self.stand() # <-- TO BE TESTED
-
-        self.hexapod.move_vert(VERT_FRONT_R, 1, self.sleep_action_time)
-        self.hexapod.move_vert(VERT_FRONT_L, 0.4, 0)
-        self.hexapod.move_knee(KNEE_FRONT_L, 0.5, 0)
-        self.hexapod.move_knee(KNEE_FRONT_R, 0.5, self.sleep_action_time)
-        self.hexapod.move_vert(VERT_FRONT_R, 0.5, self.sleep_action_time)
-        self.hexapod.move_vert(VERT_MIDDLE_L, 0.6, 0)
-        self.hexapod.move_vert(VERT_MIDDLE_R, 0.6, self.sleep_action_time + 0.25)
-        self.hexapod.move_hori(HORI_MIDDLE_L, 0.5, 0)
-        self.hexapod.move_hori(HORI_MIDDLE_R, 0.5, self.sleep_action_time)
-        self.hexapod.move_vert(VERT_MIDDLE_L, 0.4, 0)
-        self.hexapod.move_vert(VERT_MIDDLE_R, 0.4, self.sleep_action_time)
+        self.stand1()
 
     def move_knee_up(self):
         kind = 'vert'

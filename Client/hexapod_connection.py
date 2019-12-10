@@ -81,6 +81,6 @@ class HexapodConnection:
             command.replace('!', '')
             t = 'echo "' + command + '" > /dev/ttyUSB0'
             os.system(t)
-        print("sending : ", command)
+        # print("sending : ", command)
         self.save_engine_position(command)
         time.sleep(sleep_time)
