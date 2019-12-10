@@ -163,7 +163,17 @@ class Gui:
         set_engine_min_max(engine, new_min, new_max)
 
     def save_custom_min_max(self, evt=None):
-        print(MIN_MAX_ENGINES)
+        data = {}
+        index = 0
+        for i in MIN_MAX_ENGINES:
+            for j in i:
+                for k in j:
+                    for l in k:
+                        # print(INDEX_TO_ENGINE_NAME[index], l, sep="")
+                        data[INDEX_TO_ENGINE_NAME[index]] = l
+                        index += 1
+        data = json.dumps(data, indent=4)
+        print(data, file=open('constants.json', 'w'))
 
     def set_min_max(self):
         engine = self.get_selected_engine()
