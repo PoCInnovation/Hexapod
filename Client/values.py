@@ -55,6 +55,18 @@ def set_engine_min_max(engine, new_min, new_max):
     MIN_MAX_ENGINES[engine_type][engine_zone][engine_side][MIN] = new_min
     MIN_MAX_ENGINES[engine_type][engine_zone][engine_side][MAX] = new_max
 
+
+
+# def convert_angle(self, angle, engine, kind):
+#     side = engine <= 15   # We need to know which side the engine is on
+#     if kind == "v":
+#         vals = VERT_VALUES
+#     elif kind == "h":
+#         vals = HORI_VALUES
+#     else:  # k
+#         vals = KNEE_VALUES
+#     return angle * (vals[side][0] - vals[side][1]) + vals[side][1]
+
 def convert_angle(angle, engine):
     vals = get_engine_min_max(engine)
     # print("Convert_angle : ", vals)

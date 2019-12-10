@@ -120,16 +120,16 @@ MIN_MAX_ENGINES = [
     ],
     [ # HORI
         [
-            [ARR["MIN_HORI_FRONT_LEFT"], ARR["MAX_KNEE_FRONT_LEFT"]],       # FRONT LEFT
-            [ARR["MIN_KNEE_FRONT_RIGHT"], ARR["MAX_KNEE_FRONT_RIGHT"]]      # FRONT RIGHT
+            [ARR["MIN_HORI_FRONT_LEFT"], ARR["MAX_HORI_FRONT_LEFT"]],       # FRONT LEFT
+            [ARR["MIN_HORI_FRONT_RIGHT"], ARR["MAX_HORI_FRONT_RIGHT"]]      # FRONT RIGHT
         ],
         [
-            [ARR["MIN_HORI_MIDDLE_LEFT"], ARR["MAX_KNEE_MIDDLE_LEFT"]],     # MIDDLE LEFT
-            [ARR["MIN_KNEE_MIDDLE_RIGHT"], ARR["MAX_KNEE_MIDDLE_RIGHT"]]    # MIDDLE RIGHT
+            [ARR["MIN_HORI_MIDDLE_LEFT"], ARR["MAX_HORI_MIDDLE_LEFT"]],     # MIDDLE LEFT
+            [ARR["MIN_HORI_MIDDLE_RIGHT"], ARR["MAX_HORI_MIDDLE_RIGHT"]]    # MIDDLE RIGHT
         ],
         [
-            [ARR["MIN_HORI_REAR_LEFT"], ARR["MAX_KNEE_REAR_LEFT"]],         # REAR LEFT
-            [ARR["MIN_KNEE_REAR_RIGHT"], ARR["MAX_KNEE_REAR_RIGHT"]]        # REAR RIGHT
+            [ARR["MIN_HORI_REAR_LEFT"], ARR["MAX_HORI_REAR_LEFT"]],         # REAR LEFT
+            [ARR["MIN_HORI_REAR_RIGHT"], ARR["MAX_HORI_REAR_RIGHT"]]        # REAR RIGHT
         ]
     ],
     [  # VERT

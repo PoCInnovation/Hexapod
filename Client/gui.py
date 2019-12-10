@@ -3,11 +3,11 @@
 import hardcoded_movements
 import sys
 from constants import *
-from hexapod_connection import*
-from tkinter import*
+from hexapod_connection import *
+from tkinter import *
 from values import *
 
-ENGINES = {
+ENGINES_GUI = {
     "flh": HORI_FRONT_L,
     "flk": KNEE_FRONT_L,
     "flv": VERT_FRONT_L,
@@ -92,11 +92,9 @@ class Gui:
         Label(self.angle_frame, text="Angle Equivalent: ").grid(column=7, row=2)
         self.label_angle_equivalent = Label(self.angle_frame, textvariable=self.angle_equivalent)
         self.label_angle_equivalent.grid(column=8, row=2)
-
         self.angle_frame.grid(column=1, row=2, padx=10, pady=10, columnspan=8)
 
     def place_speed_frame(self):
-        # speed
         self.speed_frame = LabelFrame(self.testing_frame, pady=2, text='Speed :', labelanchor='nw')
         self.speed = IntVar()
         self.speed.set(1500)
@@ -152,32 +150,30 @@ class Gui:
         self.fen.bind_all("<space>", self.send)
         self.fen.mainloop()
 
+    def get_selected_engine(self):
+        return ENGINES_GUI[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
+
     def update_engine_min_max(self):
-        engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
+        engine = self.get_selected_engine()
         new_min = self.min.get()
         new_max = self.max.get()
 
         engine_min_max = get_engine_min_max(engine)
         if engine_min_max[MIN] == new_min and engine_min_max[MAX]== new_max:
-            return;
-
-        # print(MIN_MAX_ENGINES[])
-        # print("LA ", new_min, new_max)
-        print("ICI : " , engine_min_max)
+            return
 
     def save_custom_min_max(self, evt=None):
         print(MIN_MAX_ENGINES)
 
-
     def set_min_max(self):
-        engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
+        engine = self.get_selected_engine()
         vals = get_engine_min_max(engine)
         self.max.set(vals[MAX])
         self.min.set(vals[MIN])
 
     def set_angle_equivalent(self, *args):
         angle = float(self.angle.get())
-        engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
+        engine = self.get_selected_engine()
         self.btn_type.get()
         val = convert_angle(angle, engine)
         self.angle_equivalent.set(val)
@@ -214,12 +210,12 @@ class Gui:
         angle = float(self.angle.get())
         speed = int(self.speed.get())
 
-        engine = ENGINES[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
+        engine = self.get_selected_engine()
         command = ""
 
         if self.type_all.get() == 1:
             initial_angle = angle
-            for key, value in ENGINES.items():
+            for key, value in ENGINES_GUI.items():
                 if self.btn_type.get() not in key:
                     continue
                 angle = convert_angle(initial_angle, value)
