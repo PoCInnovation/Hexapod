@@ -118,9 +118,9 @@ class Gui:
         self.min = IntVar()
         self.max = IntVar()
         self.set_min_max()
-        self.min_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='min', variable=self.min)
+        self.min_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='min', variable=self.min, command=self.update_engine_min_max)
         self.min_scale.grid(column=1, row=1)
-        self.max_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='max', variable=self.max)
+        self.max_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='max', variable=self.max, command=self.update_engine_min_max)
         self.max_scale.grid(column=2, row=1)
 
         self.btn_save = Button(self.min_max_frame, text='save', command=self.save_custom_min_max)
@@ -153,14 +153,14 @@ class Gui:
     def get_selected_engine(self):
         return ENGINES_GUI[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]
 
-    def update_engine_min_max(self):
+    def update_engine_min_max(self, Event=None):
         engine = self.get_selected_engine()
         new_min = self.min.get()
         new_max = self.max.get()
 
         engine_min_max = get_engine_min_max(engine)
-        if engine_min_max[MIN] == new_min and engine_min_max[MAX]== new_max:
-            return
+
+        set_engine_min_max(engine, new_min, new_max)
 
     def save_custom_min_max(self, evt=None):
         print(MIN_MAX_ENGINES)
@@ -191,16 +191,6 @@ class Gui:
             self.btn_send.config(state='disable')
         else:
             self.btn_send.config(state='normal')
-
-    def angle_to_ratio(self, angle, engine, kind):
-        side = engine <= 15   # We need to know which side the engine is on
-        if kind == "v":
-            vals = VERT_VALUES
-        elif kind == "h":
-            vals = HORI_VALUES
-        else: # k
-            vals = KNEE_VALUES
-        return (angle - vals[side][1]) / (vals[side][0] - vals[side][1])
 
     def send_live(self, event=None):
         if self.live_var.get() == 1:
