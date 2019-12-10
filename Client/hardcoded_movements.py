@@ -23,6 +23,7 @@ ENGINES = {
     "rear_r_vert": VERT_REAR_R
 }
 
+
 class Hexapod_movements:
     def __init__(self, connection):
         self.hexapod_connection = connection
@@ -101,7 +102,7 @@ class HardcodedMovements:
         self.stand1()
         self.hexapod.move_vert(FRON_R_VERT, 1, 0)
         self.hexapod.move_knee(FRON_R_KNEE, 1, 0.5)
-        for i in range(5):
+        for _ in range(5):
             self.hexapod.move_knee(KNEE_FRONT_R, 1, 0.5)
             self.hexapod.move_knee(KNEE_FRONT_R, 0, 0.5)
         time.sleep(0.5)

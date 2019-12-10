@@ -7,24 +7,24 @@ SOCKET_HOST = "192.168.4.1"  # ESP32 IP in local network
 SOCKET_PORT = 80             # ESP32 Server Port
 
 ENGINES_POSITION = {
-    VERT_REAR_R   : 0,
-    HORI_REAR_R   : 1,
-    VERT_MIDDLE_R : 2,
-    HORI_MIDDLE_R : 3,
-    VERT_FRONT_R  : 4,
-    HORI_FRONT_R  : 5,
-    KNEE_REAR_R   : 6,
-    KNEE_MIDDLE_R : 7,
-    KNEE_FRONT_R  : 8,
-    VERT_REAR_L   : 16,
-    HORI_REAR_L   : 17,
-    VERT_MIDDLE_L : 18,
-    HORI_MIDDLE_L : 19,
-    VERT_FRONT_L  : 20,
-    HORI_FRONT_L  : 21,
-    KNEE_REAR_L   : 22,
-    KNEE_MIDDLE_L : 23,
-    KNEE_FRONT_L  : 24
+    VERT_REAR_R: 0,
+    HORI_REAR_R: 1,
+    VERT_MIDDLE_R: 2,
+    HORI_MIDDLE_R: 3,
+    VERT_FRONT_R: 4,
+    HORI_FRONT_R: 5,
+    KNEE_REAR_R: 6,
+    KNEE_MIDDLE_R: 7,
+    KNEE_FRONT_R: 8,
+    VERT_REAR_L: 16,
+    HORI_REAR_L: 17,
+    VERT_MIDDLE_L: 18,
+    HORI_MIDDLE_L: 19,
+    VERT_FRONT_L: 20,
+    HORI_FRONT_L: 21,
+    KNEE_REAR_L: 22,
+    KNEE_MIDDLE_L: 23,
+    KNEE_FRONT_L: 24
 }
 
 
