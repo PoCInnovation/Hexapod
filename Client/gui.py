@@ -102,6 +102,9 @@ class Gui:
         self.custom_speed_ent.grid(column=1, row=2)
         self.scale_speed = Scale(self.speed_frame, orient='horizontal', from_=0, to=3000, resolution=50, tickinterval=200, length=800, variable=self.speed)
         self.scale_speed.grid(column=1, row=1, columnspan=10)
+        self.custom_general_speed = IntVar()
+        self.speed_all_btn = Checkbutton(self.speed_frame, text="Actions speed", command=self.change_action_general_speed, variable=self.custom_general_speed)
+        self.speed_all_btn.grid(column=10, row=2)
         self.speed_frame.grid(column=1, row=3, columnspan=8)
 
     def place_testing_frame(self):
@@ -149,6 +152,13 @@ class Gui:
         self.fen.bind_all("<Escape>", self.quit)
         self.fen.bind_all("<space>", self.send)
         self.fen.mainloop()
+
+    def change_action_general_speed(self, Event=None):
+        if self.custom_general_speed.get() == 1:
+            speed = int(self.speed.get())
+            self.hardcoded_movements.set_actions_speed(speed)
+        else:
+            self.hardcoded_movements.set_actions_speed(-1)
 
     def get_selected_engine(self):
         return ENGINES_GUI[self.btn_zone.get() + self.btn_side.get() + self.btn_type.get()]

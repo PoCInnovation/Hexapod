@@ -44,12 +44,20 @@ class Hexapod_movements:
     def move_hori(self, engine, angle, sleep):
         self.move_engine(engine, angle, self.movements_speed, sleep)
 
+    def set_movements_speed(self, new_speed):
+        if new_speed == -1:
+            self.movements_speed = 700
+        else:
+            self.movements_speed = new_speed
 
 class HardcodedMovements:
     def __init__(self, connection):
         self.connection = connection
         self.hexapod = Hexapod_movements(connection)
         self.sleep_action_time = 0.25
+
+    def set_actions_speed(self, new_speed):
+        self.hexapod.set_movements_speed(new_speed)
 
     def move_kind(self, kind, angle):
         affected_engines = []
