@@ -1,22 +1,29 @@
 from constants import *
 
+
 def is_knee(engine):
     return engine in ENGINES_KNEE
+
 
 def is_vert(engine):
     return engine in ENGINES_VERT
 
+
 def is_hori(engine):
     return engine in ENGINES_HORI
+
 
 def is_front(engine):
     return engine in ENGINES_FRONT
 
+
 def is_middle(engine):
     return engine in ENGINES_MIDDLE
 
+
 def is_rear(engine):
     return engine in ENGINES_REAR
+
 
 def get_engine_type(engine):
     if is_knee(engine):
@@ -26,6 +33,7 @@ def get_engine_type(engine):
     elif is_hori(engine):
         return HORI
 
+
 def get_engine_zone(engine):
     if is_front(engine):
         return FRONT
@@ -34,11 +42,13 @@ def get_engine_zone(engine):
     elif is_rear(engine):
         return REAR
 
+
 def get_engine_side(engine):
     if engine < 15:
         return RIGHT
     else:
         return LEFT
+
 
 def get_engine_min_max(engine):
     engine_type = get_engine_type(engine)
@@ -48,6 +58,7 @@ def get_engine_min_max(engine):
 
     return MIN_MAX_ENGINES[engine_type][engine_zone][engine_side]
 
+
 def set_engine_min_max(engine, new_min, new_max):
     engine_type = get_engine_type(engine)
     engine_zone = get_engine_zone(engine)
@@ -55,17 +66,6 @@ def set_engine_min_max(engine, new_min, new_max):
     MIN_MAX_ENGINES[engine_type][engine_zone][engine_side][MIN] = new_min
     MIN_MAX_ENGINES[engine_type][engine_zone][engine_side][MAX] = new_max
 
-
-
-# def convert_angle(self, angle, engine, kind):
-#     side = engine <= 15   # We need to know which side the engine is on
-#     if kind == "v":
-#         vals = VERT_VALUES
-#     elif kind == "h":
-#         vals = HORI_VALUES
-#     else:  # k
-#         vals = KNEE_VALUES
-#     return angle * (vals[side][0] - vals[side][1]) + vals[side][1]
 
 def convert_angle(angle, engine):
     vals = get_engine_min_max(engine)
