@@ -38,7 +38,7 @@ class RadiobuttonGroup:
         self.btn = []
         for i in range(len(vals)):
             self.btn.append(Radiobutton(fen, variable=self.var, text=etiqs[i], value=vals[i], command=func))
-            self.btn[i].grid(column=1 + i, row=row, pady=5, padx=20)
+            self.btn[i].grid(column=1 + i, row=row, pady=5, padx=5)
 
     def get(self):
         return self.var.get()
@@ -51,17 +51,31 @@ class RadiobuttonGroup:
         for i in self.btn:
             i.config(state='normal')
 
+class CommandHistory:
+    def __init__(self):
+        self.history = []
+
+    def reset(self):
+        self.history = []
+
+    def add(self, new_item):
+        self.history.append(new_item)
+
+    def delete_item(self, item_id):
+        pass
+
 class Gui:
     def __init__(self, mode):
         self.connection = HexapodConnection(mode=mode)
         self.hardcoded_movements = hardcoded_movements.HardcodedMovements(self.connection)
+        self.command_history = CommandHistory()
         self.setup_window()
 
     def place_engines_frame(self):
         self.engine_frame = LabelFrame(self.testing_frame, pady=2, text='Engine :', labelanchor='nw')
-        self.btn_side = RadiobuttonGroup(['l', 'r'], ['Left', 'Right'], 'l', 1, self.engine_frame)
+        self.btn_side = RadiobuttonGroup(['l', 'r'], ['Left ', 'Right '], 'l', 1, self.engine_frame)
         self.btn_zone = RadiobuttonGroup(['f', 'm', 'r'], ['Front', 'Middle', 'Rear'], 'f', 2, self.engine_frame)
-        self.btn_type = RadiobuttonGroup(['k', 'v', 'h'], ['Knee', 'Verti', 'Hori'], 'k', 3, self.engine_frame, self.set_angle_equivalent)
+        self.btn_type = RadiobuttonGroup(['k', 'v', 'h'], ['Knee ', 'Verti ', 'Hori'], 'k', 3, self.engine_frame, self.set_angle_equivalent)
 
         self.type_all = IntVar()
         self.btn_all = Checkbutton(self.engine_frame, text="All type", variable=self.type_all, command=self.disable_toggle)
@@ -72,6 +86,40 @@ class Gui:
         self.btn_live.grid(row=3, column=6)
 
         self.engine_frame.grid(row=1, column=1)
+
+    def place_history_frame(self):
+        self.history_frame = LabelFrame(self.testing_frame, pady=2, text="History", labelanchor='nw')
+        self.history_listbox = Listbox(self.history_frame, width=40)
+        self.history_listbox.grid(column=1, row=1, rowspan=6)
+        Button(self.history_frame, text="play", padx=20, command=self.play_history_item).grid(column=2,row=1)
+        Button(self.history_frame, text="play all", padx=10, command=self.play_all_history).grid(column=2,row=2)
+        Button(self.history_frame, text="edit", padx=20, command=self.edit_history_item).grid(column=2,row=3)
+        Button(self.history_frame, text="delete", padx=14, command=self.delete_history_item).grid(column=2,row=4)
+        Button(self.history_frame, text="clear", padx=17, command=self.clear_history).grid(column=2,row=5)
+        self.history_frame.grid(row=1, column=2)
+
+
+    def play_all_history(self):
+        history = self.history_listbox.get(0, END)
+        for i in history:
+            command = i.split()[-1]
+            self.connection.send_command(command, 0)
+
+    def play_history_item(self):
+        item = self.history_listbox.get(self.history_listbox.curselection())
+        command = item.split()[-1]
+        self.connection.send_command(command, 0)
+
+    def edit_history_item(self):
+        # TODO
+        pass
+
+    def clear_history(self):
+        self.history_listbox.delete(0, END)
+
+    def delete_history_item(self):
+        item = self.history_listbox.curselection()
+        self.history_listbox.delete(item)
 
     def place_angle_frame(self):
         self.angle_equivalent = IntVar()
@@ -110,6 +158,7 @@ class Gui:
     def place_testing_frame(self):
         self.testing_frame = LabelFrame(self.fen, relief='sunken', pady=2, text='Testing :', labelanchor='n')
         self.place_engines_frame()
+        self.place_history_frame()
         self.place_angle_frame()
         self.place_speed_frame()
         self.btn_send = Button(self.testing_frame, text="send", command=self.send)
@@ -128,7 +177,7 @@ class Gui:
 
         self.btn_save = Button(self.min_max_frame, text='save', command=self.save_custom_min_max)
         self.btn_save.grid(column=1, row=2, columnspan=2, pady=10)
-        self.min_max_frame.grid(column=2, row=1, rowspan=7)
+        self.min_max_frame.grid(column=2, row=1, rowspan=8)
 
     def place_action_frame(self):
         self.action_btn_frame = LabelFrame(self.fen, bd=2, relief='sunken', pady=20, text='Actions :', labelanchor='n', padx=25)
@@ -144,7 +193,7 @@ class Gui:
 
     def setup_window(self):
         self.fen = Tk()
-        self.fen.geometry("1150x590")
+        self.fen.geometry("1150x650")
         self.fen.title("Hexapod Client")
         self.place_testing_frame()
         self.place_min_max_frame()
@@ -216,6 +265,16 @@ class Gui:
         if self.live_var.get() == 1:
             self.send()
 
+    def add_command_to_history(self, engine, command):
+        speed = self.speed.get()
+        angle = self.angle.get()
+        space = "               " # The space needed to hide the command.
+                                  # So we can get with a simple split()
+                                  # Don't judge me I'm lazy.
+        self.history_listbox.insert(self.history_listbox.size(), \
+                                    f"{ENGINES_DICT_REVERSED[engine]} : A={angle}, S={speed}, m/M="
+                                    f"{100}/{1200}{space}{command}")
+
     def send(self, event=None):
         angle = float(self.angle.get())
         speed = int(self.speed.get())
@@ -236,6 +295,8 @@ class Gui:
         else:
             angle = convert_angle(angle, engine)
             command = "#%dP%.0fS%d!" % (engine, angle, speed)   # Command to send
+            if event != "FROM_HISTORY":
+                self.add_command_to_history(engine, command)
         self.connection.send_command(command, 0)
 
     def quit(self, event=None):

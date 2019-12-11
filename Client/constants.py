@@ -43,6 +43,27 @@ ENGINES_DICT = {
     "KNEE_FRONT_L"  : 24
 }
 
+ENGINES_DICT_REVERSED = {
+    0  : "VERT_REAR_R",
+    1  : "HORI_REAR_R",
+    2  : "VERT_MIDDLE_R",
+    3  : "HORI_MIDDLE_R",
+    4  : "VERT_FRONT_R",
+    5  : "HORI_FRONT_R",
+    6  : "KNEE_REAR_R",
+    7  : "KNEE_MIDDLE_R",
+    8  : "KNEE_FRONT_R",
+    16 : "VERT_REAR_L",
+    17 : "HORI_REAR_L",
+    18 : "VERT_MIDDLE_L",
+    19 : "HORI_MIDDLE_L",
+    20 : "VERT_FRONT_L",
+    21 : "HORI_FRONT_L",
+    22 : "KNEE_REAR_L",
+    23 : "KNEE_MIDDLE_L",
+    24 : "KNEE_FRONT_L"
+}
+
 # DO NOT CHANGE THOSE ARRAYS
 ENGINES_KNEE = [
     KNEE_FRONT_R, KNEE_FRONT_L,
