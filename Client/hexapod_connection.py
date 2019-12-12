@@ -68,7 +68,7 @@ class HexapodConnection:
         elif type(engine) == int:
             return ENGINES_POSITION[engine]
 
-    def send_command(self, command, sleep_time):
+    def send_command(self, command, sleep_time=0):
         if self.mode == "wifi":
             command = bytes(command.encode('utf-8'))
             try:
@@ -83,4 +83,4 @@ class HexapodConnection:
             os.system(t)
         # print("sending : ", command)
         self.save_engine_position(command)
-        time.sleep(sleep_time)
+        # time.sleep(sleep_time)
