@@ -28,6 +28,7 @@ ENGINES_GUI = {
     "rrv": VERT_REAR_R
 }
 
+
 class RadiobuttonGroup:
     def __init__(self, vals, etiqs, default_value, row, fen, func=None):
         if len(vals) != len(etiqs):
@@ -51,18 +52,6 @@ class RadiobuttonGroup:
         for i in self.btn:
             i.config(state='normal')
 
-class CommandHistory:
-    def __init__(self):
-        self.history = []
-
-    def reset(self):
-        self.history = []
-
-    def add(self, new_item):
-        self.history.append(new_item)
-
-    def delete_item(self, item_id):
-        pass
 
 class Gui:
     def __init__(self, mode):
