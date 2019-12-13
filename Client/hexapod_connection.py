@@ -57,9 +57,9 @@ class HexapodConnection:
         try:
             engine = int(command[1:command.index('P')])
             position = int(command[command.index('P') + 1:command.index('S')])
+            ENGINES_POSITION[engine] = position
         except:
             print("Could not save engine position with the command", command)
-        ENGINES_POSITION[engine] = position
 
     def get_engine_position(self, engine):
         if type(engine) == str:

@@ -87,6 +87,11 @@ class Gui:
         self.history_listbox = Listbox(self.history_frame, width=55)
         self.history_listbox.grid(column=1, row=1, rowspan=6)
         self.edit_history_var = 0
+        self.sleep_time_history = DoubleVar()
+        self.sleep_time_history.set(1)
+        self.scale_sleep_time_history = Scale(self.history_frame, orient='vertical', from_=0, to=2, resolution=0.2, tickinterval=0.2, variable=self.sleep_time_history, length=200)
+        self.scale_sleep_time_history.grid(row=1, column=3, rowspan=12)
+
         Button(self.history_frame, text="play", padx=20, command=self.play_history_item).grid(column=2,row=1)
         Button(self.history_frame, text="play all", padx=10, command=self.play_all_history).grid(column=2,row=2)
         self.btn_edit_history = Button(self.history_frame, text="edit", padx=20, command=self.edit_history_item)
@@ -107,6 +112,7 @@ class Gui:
         for i in history:
             command = i.split()[-1]
             self.connection.send_command(command, 0)
+            time.sleep(1)
 
     def play_history_item(self):
         item = self.get_selected_history_item()
@@ -197,7 +203,7 @@ class Gui:
 
     def place_action_frame(self):
         self.action_btn_frame = LabelFrame(self.fen, bd=2, relief='sunken', pady=20, text='Actions :', labelanchor='n', padx=25)
-        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop", "forward_2"]
+        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop"]
         i, j = 1, 1
         for k in range(len(self.action_btn)):
             Button(self.action_btn_frame, text=self.action_btn[k], command=getattr(self.hardcoded_movements, self.action_btn[k])).grid(row=2 + j, column=i, padx=5)
@@ -236,6 +242,7 @@ class Gui:
         engine_min_max = get_engine_min_max(engine)
 
         set_engine_min_max(engine, new_min, new_max)
+        self.set_angle_equivalent()
 
     def save_custom_min_max(self, evt=None):
         data = {}
@@ -287,6 +294,9 @@ class Gui:
         self.history_listbox.insert(self.history_listbox.size(), \
                                     f"{ENGINES_DICT_REVERSED[engine]} : A={angle}, S={speed}, m/M="
                                     f"{self.min.get()}/{self.max.get()}    {command}")
+        self.history_listbox.selection_clear(0, END)
+        self.history_listbox.selection_anchor(END)
+        self.history_listbox.selection_set(ANCHOR)
 
     def send(self, event=None):
         angle = float(self.angle.get())

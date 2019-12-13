@@ -95,10 +95,10 @@ class HardcodedMovements:
             self.hexapod.move(HORI_MIDDLE_R, 0.5)
             self.hexapod.move(HORI_REAR_L, 0.3)
             self.hexapod.move(HORI_REAR_R, 0.7)
+            self.hexapod.send_command_group()
 
     def stand(self): # OK
         self.place_hori('normal')
-        self.hexapod.send_command_group()
         self.move_kind("knee", 0.4)
         self.hexapod.send_command_group()
         time.sleep(0.25)
@@ -108,25 +108,22 @@ class HardcodedMovements:
     def stand1(self):
         self.move_kind("vert", 0.4)
         self.hexapod.send_command_group()
-        self.move_kind("knee", 0.5)
+        self.move_kind("knee", 0.6)
         self.hexapod.send_command_group()
         self.place_hori('normal')
-        self.hexapod.send_command_group()
 
     def stand2(self):
         self.place_hori('normal')
-        self.hexapod.send_command_group()
-        self.move_kind("vert", 0.2)
+        self.move_kind("vert", 0.3)
         self.hexapod.send_command_group()
         self.move_kind("knee", 0.7)
         self.hexapod.send_command_group()
 
     def stand3(self):
         self.place_hori('normal')
+        self.move_kind("vert", 0.1)
         self.hexapod.send_command_group()
         self.move_kind("knee", 0.8)
-        self.hexapod.send_command_group()
-        self.move_kind("vert", 0.1)
         self.hexapod.send_command_group()
 
     def wave(self):
