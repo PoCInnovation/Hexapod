@@ -48,11 +48,15 @@ class Hexapod_movements:
         #          #=pin P=position S=speed !=EOL for arduino decode
         self.hexapod_connection.send_command(command)
 
-    def move(self, engine, angle, sleep=0, directly_send=False):
+    def move(self, engine, angle, sleep=0, directly_send=False, send=False, sleep_time=False):
         if directly_send == False:
             self.add_command_to_command_group(engine, angle, self.movements_speed)
         else:
             self.send_command(engine, angle, self.movements_speed)
+        if send == True:
+            self.send_command_group()
+        if sleep_time != None:
+            time.sleep(sleep_time)
 
     def set_movements_speed(self, new_speed):
         if new_speed == -1:
@@ -69,21 +73,21 @@ class HardcodedMovements:
     def set_actions_speed(self, new_speed):
         self.hexapod.set_movements_speed(new_speed)
 
-    def move_kind(self, kind, angle):
+    def move_kind(self, kind, angle, send=None):
         affected_engines = []
         for key in ENGINES:
             if kind in key:
                 affected_engines.append(ENGINES[key])
         for engine in affected_engines:
             self.hexapod.move(engine, angle)
+        if send != None:
+            self.hexapod.send_command_group()
 
     def sit(self): # OK
         self.stand()
-        self.move_kind("vert", 1)
-        self.hexapod.send_command_group()
+        self.move_kind("vert", 1, send=True)
         time.sleep(0.5)
-        self.move_kind("knee", 0)
-        self.hexapod.send_command_group()
+        self.move_kind("knee", 0, send=True)
 
     def place_hori(self, mode):
         if mode == "para":
@@ -94,37 +98,29 @@ class HardcodedMovements:
             self.hexapod.move(HORI_MIDDLE_L, 0.5)
             self.hexapod.move(HORI_MIDDLE_R, 0.5)
             self.hexapod.move(HORI_REAR_L, 0.3)
-            self.hexapod.move(HORI_REAR_R, 0.7)
-            self.hexapod.send_command_group()
+            self.hexapod.move(HORI_REAR_R, 0.7, send=True)
 
     def stand(self): # OK
         self.place_hori('normal')
-        self.move_kind("knee", 0.4)
-        self.hexapod.send_command_group()
+        self.move_kind("knee", 0.4, send=True)
         time.sleep(0.25)
-        self.move_kind("vert", 0.6)
-        self.hexapod.send_command_group()
+        self.move_kind("vert", 0.6, send=True)
 
     def stand1(self):
-        self.move_kind("vert", 0.4)
-        self.hexapod.send_command_group()
-        self.move_kind("knee", 0.6)
-        self.hexapod.send_command_group()
         self.place_hori('normal')
+        self.move_kind("knee", 0.4, send=True)
+        time.sleep(0.25)
+        self.move_kind("vert", 0.5, send=True)
 
     def stand2(self):
         self.place_hori('normal')
-        self.move_kind("vert", 0.3)
-        self.hexapod.send_command_group()
-        self.move_kind("knee", 0.7)
-        self.hexapod.send_command_group()
+        self.move_kind("vert", 0.3, send=True)
+        self.move_kind("knee", 0.7, send=True)
 
     def stand3(self):
         self.place_hori('normal')
-        self.move_kind("vert", 0.1)
-        self.hexapod.send_command_group()
-        self.move_kind("knee", 0.8)
-        self.hexapod.send_command_group()
+        self.move_kind("vert", 0.1, send=True)
+        self.move_kind("knee", 0.8, send=True)
 
     def wave(self):
         self.stand1()
@@ -139,17 +135,14 @@ class HardcodedMovements:
         self.stand1()
         time.sleep(3)
         self.hexapod.move(VERT_MIDDLE_L, 0.6, 0)
-        self.hexapod.move(VERT_MIDDLE_R, 0.6, self.sleep_action_time)
+        self.hexapod.move(VERT_MIDDLE_R, 0.6, self.sleep_action_time, send=True)
 
-        self.hexapod.send_command_group()
         self.hexapod.move(HORI_MIDDLE_L, 0.7, 0)
-        self.hexapod.move(HORI_MIDDLE_R, 0.3, self.sleep_action_time)
+        self.hexapod.move(HORI_MIDDLE_R, 0.3, self.sleep_action_time, send=True)
 
-        self.hexapod.send_command_group()
         self.hexapod.move(VERT_MIDDLE_L, 0.3, 0)
-        self.hexapod.move(VERT_MIDDLE_R, 0.3, self.sleep_action_time)
+        self.hexapod.move(VERT_MIDDLE_R, 0.3, self.sleep_action_time, send=True)
 
-        self.hexapod.send_command_group()
         self.hexapod.move(VERT_FRONT_L, 0.7, 0)
         self.hexapod.move(VERT_FRONT_R, 0.7, self.sleep_action_time)
         self.hexapod.move(HORI_FRONT_L, 0.7, 0)
@@ -157,8 +150,7 @@ class HardcodedMovements:
         self.hexapod.move(KNEE_FRONT_L, 1, 0)
         self.hexapod.move(KNEE_FRONT_R, 0, self.sleep_action_time)
         self.hexapod.move(VERT_FRONT_L, 0.7, 0)
-        self.hexapod.move(VERT_FRONT_R, 0.3, self.sleep_action_time)
-        self.hexapod.send_command_group()
+        self.hexapod.move(VERT_FRONT_R, 0.3, self.sleep_action_time, send=True)
         time.sleep(2)  # wait for a bit in dab position
         self.stand1()
 
@@ -176,37 +168,20 @@ class HardcodedMovements:
     def forward(self):
         #  command = "RH 2100 RM 1400 RL 1000 LH 500 LM 1400 LL 1800 VS 500 LF 800 LR 1700 RF 1700 RR 800 HT 500 XL 20 XR 20 XS 170!"
         #  self.connection.send_command(command, 0)
-        self.hexapod.move(VERT_FRONT_R, 0.45, 0)
-        self.hexapod.move(VERT_MIDDLE_L, 0.45, 0)
-        self.hexapod.move(VERT_REAR_R, 0.45, 0.6)
+        # self.stand()
+        # time.sleep(2)
+        # self.stand1()
+        # time.sleep(2)
+        # LEVE LES PATES
+        self.hexapod.move(VERT_FRONT_R, 0.6)
+        self.hexapod.move(VERT_MIDDLE_L, 0.6)
+        self.hexapod.move(VERT_REAR_R, 0.6, send=True)
 
-        self.hexapod.move(HORI_FRONT_R, 0.2, 0)
-        self.hexapod.move(HORI_MIDDLE_L, 0.7, 0)
-        self.hexapod.move(HORI_REAR_R, 0.6, 0.6)
+        # BOUGE VERS L"AVANT
+        self.hexapod.move(HORI_FRONT_R, 0.6)
+        self.hexapod.move(HORI_MIDDLE_L, 0.6)
+        self.hexapod.move(HORI_REAR_R, 0.6, send=True)
 
-        self.hexapod.move(VERT_FRONT_R, 0.2, 0)
-        self.hexapod.move(VERT_MIDDLE_L, 0.2, 0)
-        self.hexapod.move(VERT_REAR_R, 0.2, 0.6)
-
-        self.hexapod.move(HORI_MIDDLE_R, 0.5, 0)
-        self.hexapod.move(HORI_REAR_L, 0.3, 0)
-        self.hexapod.move(HORI_REAR_R, 0.7, 0)
-
-        self.hexapod.move(VERT_FRONT_L, 0.45, 0)
-        self.hexapod.move(VERT_MIDDLE_R, 0.45, 0)
-        self.hexapod.move(VERT_REAR_L, 0.45, 0.6)
-
-        self.hexapod.move(HORI_FRONT_L, 0.8, 0)
-        self.hexapod.move(HORI_MIDDLE_R, 0.4, 0)
-        self.hexapod.move(HORI_REAR_L, 0.5, 0.6)
-
-        self.hexapod.move(VERT_FRONT_L, 0.2, 0)
-        self.hexapod.move(VERT_MIDDLE_R, 0.2, 0)
-        self.hexapod.move(VERT_REAR_L, 0.2, 0.6)
-
-        self.hexapod.move(HORI_FRONT_L, 0.7, 0)
-        self.hexapod.move(HORI_FRONT_R, 0.3, 0)
-        self.hexapod.move(HORI_MIDDLE_L, 0.5, 0.6)
 
     def forward_2(self):
         print(self.connection.get_engine_position('all'))

@@ -28,6 +28,7 @@ ENGINES_GUI = {
     "rrv": VERT_REAR_R
 }
 
+GUI_COLOR = "#E4E4E4"
 
 class RadiobuttonGroup:
     def __init__(self, vals, etiqs, default_value, row, fen, func=None):
@@ -89,9 +90,9 @@ class Gui:
         self.edit_history_var = 0
         self.sleep_time_history = DoubleVar()
         self.sleep_time_history.set(1)
-        self.scale_sleep_time_history = Scale(self.history_frame, orient='vertical', from_=0, to=2, resolution=0.2, tickinterval=0.2, variable=self.sleep_time_history, length=200)
+        self.scale_sleep_time_history = Scale(self.history_frame, orient='vertical', \
+                                              from_=0, to=2, resolution=0.2, tickinterval=0.2, variable=self.sleep_time_history, length=200)
         self.scale_sleep_time_history.grid(row=1, column=3, rowspan=12)
-
         Button(self.history_frame, text="play", padx=20, command=self.play_history_item).grid(column=2,row=1)
         Button(self.history_frame, text="play all", padx=10, command=self.play_all_history).grid(column=2,row=2)
         self.btn_edit_history = Button(self.history_frame, text="edit", padx=20, command=self.edit_history_item)
@@ -112,7 +113,7 @@ class Gui:
         for i in history:
             command = i.split()[-1]
             self.connection.send_command(command, 0)
-            time.sleep(1)
+            time.sleep(self.sleep_time_history.get())
 
     def play_history_item(self):
         item = self.get_selected_history_item()
@@ -153,7 +154,8 @@ class Gui:
 
         self.angle_frame = LabelFrame(self.testing_frame, pady=2, text='Angle :', labelanchor='nw')
         # Scale
-        self.scale_angle = Scale(self.angle_frame, orient='horizontal', from_=0, to=1, resolution=0.05, tickinterval=0.05, length=1000, variable=self.angle, command=self.send_live)
+        self.scale_angle = Scale(self.angle_frame, orient='horizontal', from_=0, to=1, \
+                                 resolution=0.05, tickinterval=0.05, length=1000, variable=self.angle, command=self.send_live)
         self.scale_angle.grid(column=1, row=1, columnspan=8)
         # Entry
         self.custom_angle_ent = Entry(self.angle_frame, width=5, textvariable=self.angle)
@@ -192,9 +194,11 @@ class Gui:
         self.min = IntVar()
         self.max = IntVar()
         self.set_min_max()
-        self.min_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='min', variable=self.min, command=self.update_engine_min_max)
+        self.min_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, \
+                               resolution=50, tickinterval=200, length=500, label='min', variable=self.min, command=self.update_engine_min_max)
         self.min_scale.grid(column=1, row=1)
-        self.max_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, resolution=50, tickinterval=200, length=500, label='max', variable=self.max, command=self.update_engine_min_max)
+        self.max_scale = Scale(self.min_max_frame, orient='vertical', from_=0, to=3000, \
+                               resolution=50, tickinterval=200, length=500, label='max', variable=self.max, command=self.update_engine_min_max)
         self.max_scale.grid(column=2, row=1)
 
         self.btn_save = Button(self.min_max_frame, text='save', command=self.save_custom_min_max)
