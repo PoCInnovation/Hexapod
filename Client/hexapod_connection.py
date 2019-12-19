@@ -7,24 +7,24 @@ SOCKET_HOST = "192.168.4.1"  # ESP32 IP in local network
 SOCKET_PORT = 80             # ESP32 Server Port
 
 ENGINES_POSITION = {
-    VERT_REAR_R: 0,
-    HORI_REAR_R: 1,
-    VERT_MIDDLE_R: 2,
-    HORI_MIDDLE_R: 3,
-    VERT_FRONT_R: 4,
-    HORI_FRONT_R: 5,
-    KNEE_REAR_R: 6,
-    KNEE_MIDDLE_R: 7,
-    KNEE_FRONT_R: 8,
-    VERT_REAR_L: 16,
-    HORI_REAR_L: 17,
-    VERT_MIDDLE_L: 18,
-    HORI_MIDDLE_L: 19,
-    VERT_FRONT_L: 20,
-    HORI_FRONT_L: 21,
-    KNEE_REAR_L: 22,
-    KNEE_MIDDLE_L: 23,
-    KNEE_FRONT_L: 24
+    VERT_REAR_R   : 0,
+    HORI_REAR_R   : 0,
+    VERT_MIDDLE_R : 0,
+    HORI_MIDDLE_R : 0,
+    VERT_FRONT_R  : 0,
+    HORI_FRONT_R  : 0,
+    KNEE_REAR_R   : 0,
+    KNEE_MIDDLE_R : 0,
+    KNEE_FRONT_R  : 0,
+    VERT_REAR_L   : 0,
+    HORI_REAR_L   : 0,
+    VERT_MIDDLE_L : 0,
+    HORI_MIDDLE_L : 0,
+    VERT_FRONT_L  : 0,
+    HORI_FRONT_L  : 0,
+    KNEE_REAR_L   : 0,
+    KNEE_MIDDLE_L : 0,
+    KNEE_FRONT_L  : 0
 }
 
 
@@ -51,15 +51,25 @@ class HexapodConnection:
 
     def save_engine_position(self, command):
         global ENGINES_POSITION
-
         ''' This should always work with the gui but if you use tester.py
         and make a mistake this try/except will prevent from crashing '''
         try:
-            engine = int(command[1:command.index('P')])
-            position = int(command[command.index('P') + 1:command.index('S')])
-            ENGINES_POSITION[engine] = position
+            commands_array = command.split('#')
         except:
-            print("Could not save engine position with the command", command)
+            print('could not split : ', command)
+            return
+
+        for com in commands_array:
+            if len(com) == 0:
+                continue
+            try:
+                engine = int(com[0:com.index('P')])
+                position = int(com[com.index('P') + 1:com.index('S')])
+                print("Save : ", command, engine , position)
+                ENGINES_POSITION[engine] = position
+            except:
+                print("Could not save engine position with the command", com)
+                continue
 
     def get_engine_position(self, engine):
         if type(engine) == str:

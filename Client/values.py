@@ -68,6 +68,12 @@ def set_engine_min_max(engine, new_min, new_max):
 
 
 def convert_angle(angle, engine):
+
+    print("ENG" , engine)
     vals = get_engine_min_max(engine)
-    # print("Convert_angle : ", vals)
     return angle * (vals[MAX] - vals[MIN]) + vals[MIN]
+
+
+def angle_to_ratio(angle, engine):
+    vals = get_engine_min_max(engine)
+    return (angle - vals[MAX]) / (vals[MIN] - vals[MAX])
