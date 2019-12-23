@@ -219,6 +219,8 @@ class Gui:
 
     def setup_window(self):
         self.fen = Tk()
+        self.fen.option_readfile('./.tkopt')
+        self.fen.configure(bg="#E4E4E4")
         self.fen.geometry("1350x650")
         self.fen.title("Hexapod Client")
         self.place_testing_frame()
