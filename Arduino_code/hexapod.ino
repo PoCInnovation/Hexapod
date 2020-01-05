@@ -45,37 +45,26 @@ void setup()
     Serial.begin(115200);
     port.begin(9600);
     init_web_server((char*)"Hexapod_wifi", (char*)"poc");
-    init_ultrassound();
-}
-
-void send_info_lidar(WiFiClient client)
-{
-    float distance_mm = get_ultrassound_data();
-    //    client.println("HTTP/1.1 200 OK");
-    //    client.println("Content-type:text/html");
-    //    client.println();
-
-    client.print(distance_mm / 10.0, 2);
-    client.println(F(" cm"));
-    //	delay(100);
-    //	client.println();
+    /* init_ultrassound(); */
 }
 
 void get_client_string(WiFiClient client)
 {
-    char str[32];
+    const int STR_LEN = 512
+    char str[512];
     char c;
-    int i = 0;
+    int i = 1;
 
-    while ((c = client.read()) != -1) {
+    str[0] = '#';
+    while ((c = client.read()) != -1 && i < STR_LEN) {
         if (c == '!')
             break;
         str[i] = c;
         i += 1;
     }
     str[i] = '\0';
-    port.println(str);
-    Serial.println(str);
+    portBoardHexapod.println(str);
+    Serial.println(str); //debug
 }
 
 void loop()
