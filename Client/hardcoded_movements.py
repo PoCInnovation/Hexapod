@@ -1,6 +1,7 @@
 from values import *
 import sys
 import time
+import threading
 
 ENGINES = {
     "fron_l_hori": HORI_FRONT_L,
@@ -27,7 +28,7 @@ ENGINES = {
 class Hexapod_movements:
     def __init__(self, connection):
         self.hexapod_connection = connection
-        self.movements_speed = 400
+        self.movements_speed = 700
         self.string_to_send = ""
 
     def send_command_group(self):
@@ -127,6 +128,7 @@ class HardcodedMovements:
 
     def wave(self):
         self.stand1()
+        self.hexapod.move(VERT_FRONT_R, 0.7, directly_send=True)
         for _ in range(5):
             self.hexapod.move(KNEE_FRONT_R, 1, directly_send=True)
             time.sleep(0.5)
@@ -168,29 +170,77 @@ class HardcodedMovements:
             time.sleep(0.5)
             getattr(self.hexapod, "move_" + kind)(engine, 0.2, 0)
 
-    def forward(self):
-        #  command = "RH 2100 RM 1400 RL 1000 LH 500 LM 1400 LL 1800 VS 500 LF 800 LR 1700 RF 1700 RR 800 HT 500 XL 20 XR 20 XS 170!"
-        #  self.connection.send_command(command, 0)
-        # self.stand()
-        # time.sleep(2)
-        # self.stand1()
-        # time.sleep(2)
-        # print(self.connection.get_engine_position("all"))
-        # pos_engine_vert = self.connection.get_engine_position(VERT_FRONT_R)
-        # print(pos_engine_vert)
-        # # print(pos_engine_vert - 200)
-        # a = angle_to_ratio(pos_engine_vert, VERT_FRONT_R)
-        # TODO :
-        # FIX la fonction angle to ratio avec lorenzo
-        # FAIRE CETTE PTN DE FONCTION FORWARD
+    def rotate_right(self):
+        self.continue_movement = True
+        self.thread_walk = threading.Thread(target=self.rotate, args=('r'))
+        self.thread_walk.daemon = True
+        self.thread_walk.start()
+
+    def rotate_left(self):
+        self.continue_movement = True
+        self.thread_walk = threading.Thread(target=self.rotate, args=('l'))
+        self.thread_walk.daemon = True
+        self.thread_walk.start()
+
+    def rotate(self, direction):
+        self.hexapod.set_movements_speed(1500)
+        side = 1 if direction == 'r' else -1
+
+        # LEVE LES PATES
+        self.hexapod.move(VERT_FRONT_R, 0.6)
+        self.hexapod.move(VERT_MIDDLE_L, 0.6)
+        self.hexapod.move(VERT_REAR_R, 0.6, send=True)
+        time.sleep(0.2)
+
+        # BOUGE VERS L"AVANT
+        self.hexapod.move(HORI_FRONT_R, 0.3 + (0.2 * side))
+        self.hexapod.move(HORI_MIDDLE_L, 0.5 + (0.2 * side))
+        self.hexapod.move(HORI_REAR_R, 0.7 + (0.2 * side))
+
+        # On tourne les pates au sol
+        self.hexapod.move(HORI_FRONT_L, 0.7 - (0.1 * side))
+        self.hexapod.move(HORI_MIDDLE_R, 0.5 - (0.1 * side))
+        self.hexapod.move(HORI_REAR_L, 0.3 - (0.1 * side), send=True)
+        time.sleep(0.2)
+
+        # on pose les pates qui etaient en l'air
+        self.hexapod.move(VERT_FRONT_R, 0.5)
+        self.hexapod.move(VERT_MIDDLE_L, 0.5)
+        self.hexapod.move(VERT_REAR_R, 0.5, send=True)
+        time.sleep(0.2)
+
+        # On leve le 2e set de pates
+        self.hexapod.move(VERT_FRONT_L, 0.7)
+        self.hexapod.move(VERT_MIDDLE_R, 0.7)
+        self.hexapod.move(VERT_REAR_L, 0.7, send=True)
+        time.sleep(0.2)
 
 
-        # b = convert_angle(a, VERT_FRONT_R)
-        # print("ICI _>" , a, b)
-        # self.hexapod.move(VERT_FRONT_R, pos_engine_vert + 200, directly_send=True)
-        # self.hexapod.send_command(VERT_REAR_R, pos_engine_vert - 200, 700)
-        # print(po)
+        # on avance celles au sol
+        self.hexapod.move(HORI_FRONT_R, 0.3 - (0.2 * side))
+        self.hexapod.move(HORI_MIDDLE_L, 0.5 - (0.2 * side))
+        self.hexapod.move(HORI_REAR_R, 0.7 - (0.2 * side))
 
+
+        # on les avance
+        self.hexapod.move(HORI_FRONT_L, 0.7 - (0.2 * side))
+        self.hexapod.move(HORI_MIDDLE_R, 0.5 - (0.2 * side))
+        self.hexapod.move(HORI_REAR_L, 0.3 - (0.2 * side), send=True)
+        time.sleep(0.2)
+
+        # On les poses
+        self.hexapod.move(VERT_FRONT_L, 0.5)
+        self.hexapod.move(VERT_MIDDLE_R, 0.5)
+        self.hexapod.move(VERT_REAR_L, 0.5, send=True)
+        time.sleep(0.1)
+        self.hexapod.set_movements_speed(-1)
+
+        if self.continue_movement == False:
+            exit(0)
+        self.rotate(direction)
+
+    def walk_forward(self):
+        self.hexapod.set_movements_speed(1500)
         # LEVE LES PATES
         self.hexapod.move(VERT_FRONT_R, 0.6)
         self.hexapod.move(VERT_MIDDLE_L, 0.6)
@@ -215,7 +265,6 @@ class HardcodedMovements:
         self.hexapod.move(VERT_REAR_R, 0.5, send=True)
         time.sleep(0.2)
 
-        time.sleep(1)
         # On leve le 2e set de pates
         self.hexapod.move(VERT_FRONT_L, 0.7)
         self.hexapod.move(VERT_MIDDLE_R, 0.7)
@@ -233,18 +282,80 @@ class HardcodedMovements:
         self.hexapod.move(HORI_REAR_L, 0.4, send=True)
         time.sleep(0.2)
 
-
+        # On les poses
         self.hexapod.move(VERT_FRONT_L, 0.5)
         self.hexapod.move(VERT_MIDDLE_R, 0.5)
         self.hexapod.move(VERT_REAR_L, 0.5, send=True)
+        time.sleep(0.1)
+        self.hexapod.set_movements_speed(-1)
+        if self.continue_movement == False:
+            exit(0)
+        self.walk_forward()
+
+    def walk_backward(self):
+        self.hexapod.set_movements_speed(1500)
+
+        # LEVE LES PATES
+        self.hexapod.move(VERT_FRONT_R, 0.6)
+        self.hexapod.move(VERT_MIDDLE_L, 0.6)
+        self.hexapod.move(VERT_REAR_R, 0.6, send=True)
         time.sleep(0.2)
 
+        # BOUGE VERS L"AVANT
+        self.hexapod.move(HORI_FRONT_R, 0.5)
+        self.hexapod.move(HORI_MIDDLE_L, 0.4)
+        self.hexapod.move(HORI_REAR_R, 0.8)
 
+        # On Avance les pates au sol
+        self.hexapod.move(HORI_FRONT_L, 0.8)
+        self.hexapod.move(HORI_MIDDLE_R, 0.4)
+        self.hexapod.move(HORI_REAR_L, 0.4, send=True)
+        time.sleep(0.2)
 
+        # on pose les pates qui etaient en l'air
+        self.hexapod.move(VERT_FRONT_R, 0.5)
+        self.hexapod.move(VERT_MIDDLE_L, 0.5)
+        self.hexapod.move(VERT_REAR_R, 0.5, send=True)
+        time.sleep(0.2)
+        # On leve le 2e set de pates
+        self.hexapod.move(VERT_FRONT_L, 0.7)
+        self.hexapod.move(VERT_MIDDLE_R, 0.7)
+        self.hexapod.move(VERT_REAR_L, 0.7, send=True)
+        time.sleep(0.2)
 
-    def forward_2(self):
-        print(self.connection.get_engine_position('all'))
+        # on avance celles au sol
+        self.hexapod.move(HORI_FRONT_R, 0.2)
+        self.hexapod.move(HORI_MIDDLE_L, 0.6)
+        self.hexapod.move(HORI_REAR_R, 0.6)
+
+        # on les avance
+        self.hexapod.move(HORI_FRONT_L, 0.6)
+        self.hexapod.move(HORI_MIDDLE_R, 0.6)
+        self.hexapod.move(HORI_REAR_L, 0.2, send=True)
+        time.sleep(0.2)
+
+        # On les poses
+        self.hexapod.move(VERT_FRONT_L, 0.5)
+        self.hexapod.move(VERT_MIDDLE_R, 0.5)
+        self.hexapod.move(VERT_REAR_L, 0.5, send=True)
+        time.sleep(0.1)
+        self.hexapod.set_movements_speed(-1)
+        if self.continue_movement == False:
+            exit(0)
+        self.walk_backward()
+
+    def forward(self):
+        self.continue_movement = True
+        self.thread_walk = threading.Thread(target=self.walk_forward, args=())
+        self.thread_walk.daemon = True
+        self.thread_walk.start()
+
+    def backward(self):
+        self.continue_movement = True
+        self.thread_walk = threading.Thread(target=self.walk_backward, args=())
+        self.thread_walk.daemon = True
+        self.thread_walk.start()
 
     def stop(self):
-        commmand = "XSTOP!"
-        self.connection.send_command(commmand, 0)
+        self.continue_movement = False
+        self.thread_walk.join()

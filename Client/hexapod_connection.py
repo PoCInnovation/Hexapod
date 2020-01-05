@@ -65,7 +65,7 @@ class HexapodConnection:
             try:
                 engine = int(com[0:com.index('P')])
                 position = int(com[com.index('P') + 1:com.index('S')])
-                print("Save : ", command, engine , position)
+                # print("Save : ", command, engine , position)
                 ENGINES_POSITION[engine] = position
             except:
                 print("Could not save engine position with the command", com)
@@ -80,6 +80,7 @@ class HexapodConnection:
 
     def send_command(self, command, sleep_time=0):
         if self.mode == "wifi":
+            print(command)
             command = bytes(command.encode('utf-8'))
             try:
                 self.socket.send(command)
@@ -92,5 +93,5 @@ class HexapodConnection:
             t = 'echo "' + command + '" > /dev/ttyUSB0'
             os.system(t)
         # print("sending : ", command)
-        self.save_engine_position(command)
+        # self.save_engine_position(command)
         # time.sleep(sleep_time)

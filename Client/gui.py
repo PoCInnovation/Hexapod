@@ -207,7 +207,7 @@ class Gui:
 
     def place_action_frame(self):
         self.action_btn_frame = LabelFrame(self.fen, bd=2, relief='sunken', pady=20, text='Actions :', labelanchor='n', padx=25)
-        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop"]
+        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop", "backward", "rotate_right", "rotate_left"]
         i, j = 1, 1
         for k in range(len(self.action_btn)):
             Button(self.action_btn_frame, text=self.action_btn[k], command=getattr(self.hardcoded_movements, self.action_btn[k])).grid(row=2 + j, column=i, padx=5)
@@ -333,6 +333,7 @@ class Gui:
             self.edit_history_item()
 
     def quit(self, event=None):
+        self.connection.close()
         self.fen.quit()
         self.fen.destroy()
 
