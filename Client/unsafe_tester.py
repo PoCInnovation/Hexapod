@@ -1,5 +1,11 @@
 #!/usr/bin/python3
 
+'''
+this is just used to debug or test commands quickly.
+Refers to ../Doc/lynxmotion_ssc-32u_usb_user_guide.pdf to learn how commands are
+formatted
+'''
+
 from values import *
 from hexapod_connection import*
 import sys
