@@ -29,6 +29,11 @@ ENGINES_POSITION = {
 
 
 class HexapodConnection:
+    """
+    Class helping with hardware communication
+    Compatible with wired/wireless
+    """
+
     def __init__(self, host=SOCKET_HOST, port=SOCKET_PORT, mode="wifi"):
         self.mode = mode
         if self.mode == "wifi":
@@ -51,11 +56,9 @@ class HexapodConnection:
 
     def save_engine_position(self, command):
         global ENGINES_POSITION
-        ''' This should always work with the gui but if you use tester.py
-        and make a mistake this try/except will prevent from crashing '''
         try:
             commands_array = command.split('#')
-        except:
+        except: # user error
             print('could not split : ', command)
             return
 
@@ -65,7 +68,6 @@ class HexapodConnection:
             try:
                 engine = int(com[0:com.index('P')])
                 position = int(com[com.index('P') + 1:com.index('S')])
-                # print("Save : ", command, engine , position)
                 ENGINES_POSITION[engine] = position
             except:
                 print("Could not save engine position with the command", com)

@@ -1,8 +1,17 @@
-from json_functions import *
+from json_functions import load_config
 
-# ENGINES PINS
-# IF YOU'RE WONDERING WHY THIS ORDER PLEASE READ :
-# lynxmotion_ssc-32u_usb_user_guide.pdf
+
+"""
+This file contains constants useful for interacting with the hardware
+Changing constants may cause hard-to-debug problems
+"""
+
+
+"""
+ENGINES PINS
+IF YOU'RE WONDERING WHY THIS ORDER PLEASE READ :
+lynxmotion_ssc-32u_usb_user_guide.pdf
+"""
 VERT_REAR_R   = 0
 HORI_REAR_R   = 1
 VERT_MIDDLE_R = 2
@@ -64,7 +73,8 @@ ENGINES_DICT_REVERSED = {
     24 : "KNEE_FRONT_L"
 }
 
-# DO NOT CHANGE THOSE ARRAYS
+
+"""DO NOT CHANGE THOSE ARRAYS"""
 ENGINES_KNEE = [
     KNEE_FRONT_R, KNEE_FRONT_L,
     KNEE_MIDDLE_R, KNEE_MIDDLE_L,
@@ -101,23 +111,23 @@ ENGINES_REAR = [
     KNEE_REAR_L, KNEE_REAR_R
 ]
 
-# CONSTANTS TO IMPROVE READABILITY
+"""CONSTANTS TO IMPROVE READABILITY"""
 
-# ENGINE TYPE
+"""ENGINE TYPE"""
 KNEE    = 0
 HORI    = 1
 VERT    = 2
 
-# ENGINE ZONES
+"""ENGINE ZONES"""
 FRONT   = 0
 MIDDLE  = 1
 REAR    = 2
 
-# MIN/MAX OF THE ENGINE
+"""MIN/MAX OF THE ENGINE"""
 MIN     = 0
 MAX     = 1
 
-# SIDE
+"""SIDE"""
 LEFT    = 0
 RIGHT   = 1
 
@@ -162,7 +172,6 @@ INDEX_TO_ENGINE_NAME = [
     "MAX_VERT_REAR_RIGHT",
 ]
 
-# DO NOT CHANGE THIS
 MIN_MAX_ENGINES = [
     [  # KNEE
         [
@@ -207,7 +216,8 @@ MIN_MAX_ENGINES = [
         ]
     ]
 ]
-''' Example :
-    If you want to access max knee middle left:
-    MIN_MAX_ENGINES[KNEE][MIDDLE][LEFT][MAX]
-'''
+"""
+Example :
+If you want to access max knee middle left:
+MIN_MAX_ENGINES[KNEE][MIDDLE][LEFT][MAX]
+"""
