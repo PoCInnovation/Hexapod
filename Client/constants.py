@@ -31,46 +31,26 @@ KNEE_REAR_L   = 22
 KNEE_MIDDLE_L = 23
 KNEE_FRONT_L  = 24
 
-ENGINES_DICT = {
-    "VERT_REAR_R"   : 0,
-    "HORI_REAR_R"   : 1,
-    "VERT_MIDDLE_R" : 2,
-    "HORI_MIDDLE_R" : 3,
-    "VERT_FRONT_R"  : 4,
-    "HORI_FRONT_R"  : 5,
-    "KNEE_REAR_R"   : 6,
-    "KNEE_MIDDLE_R" : 7,
-    "KNEE_FRONT_R"  : 8,
-    "VERT_REAR_L"   : 16,
-    "HORI_REAR_L"   : 17,
-    "VERT_MIDDLE_L" : 18,
-    "HORI_MIDDLE_L" : 19,
-    "VERT_FRONT_L"  : 20,
-    "HORI_FRONT_L"  : 21,
-    "KNEE_REAR_L"   : 22,
-    "KNEE_MIDDLE_L" : 23,
-    "KNEE_FRONT_L"  : 24
-}
 
 ENGINES_DICT_REVERSED = {
-    0  : "VERT_REAR_R",
-    1  : "HORI_REAR_R",
-    2  : "VERT_MIDDLE_R",
-    3  : "HORI_MIDDLE_R",
-    4  : "VERT_FRONT_R",
-    5  : "HORI_FRONT_R",
-    6  : "KNEE_REAR_R",
-    7  : "KNEE_MIDDLE_R",
-    8  : "KNEE_FRONT_R",
-    16 : "VERT_REAR_L",
-    17 : "HORI_REAR_L",
-    18 : "VERT_MIDDLE_L",
-    19 : "HORI_MIDDLE_L",
-    20 : "VERT_FRONT_L",
-    21 : "HORI_FRONT_L",
-    22 : "KNEE_REAR_L",
-    23 : "KNEE_MIDDLE_L",
-    24 : "KNEE_FRONT_L"
+    VERT_REAR_R   : "VERT_REAR_R",
+    HORI_REAR_R   : "HORI_REAR_R",
+    VERT_MIDDLE_R : "VERT_MIDDLE_R",
+    HORI_MIDDLE_R : "HORI_MIDDLE_R",
+    VERT_FRONT_R  : "VERT_FRONT_R",
+    HORI_FRONT_R  : "HORI_FRONT_R",
+    KNEE_REAR_R   : "KNEE_REAR_R",
+    KNEE_MIDDLE_R : "KNEE_MIDDLE_R",
+    KNEE_FRONT_R  : "KNEE_FRONT_R",
+    VERT_REAR_L   : "VERT_REAR_L",
+    HORI_REAR_L   : "HORI_REAR_L",
+    VERT_MIDDLE_L : "VERT_MIDDLE_L",
+    HORI_MIDDLE_L : "HORI_MIDDLE_L",
+    VERT_FRONT_L  : "VERT_FRONT_L",
+    HORI_FRONT_L  : "HORI_FRONT_L",
+    KNEE_REAR_L   : "KNEE_REAR_L",
+    KNEE_MIDDLE_L : "KNEE_MIDDLE_L",
+    KNEE_FRONT_L  : "KNEE_FRONT_L"
 }
 
 
