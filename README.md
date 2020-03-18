@@ -1,5 +1,9 @@
 # Hexapod
 
+![alt text](.github/hexapod_frontview.jpg "demo")
+
+![alt text](https://www.youtube.com/watch?v=htWsSTcH6iU&feature=youtu.be "videodemo")
+
 
 ## Quick start
 
@@ -15,6 +19,21 @@ Both work the same way and are easy to use.
 4. launch Client/gui.py or Client/main.py
 
 5. once you're on the gui juste use the action buttons (sit, stand, walk...)
+
+## About the gui
+![alt text](.github/gui.png "demo")
+
+There are two mains usages for the gui
+- Call predefined function (at the bottom). Those are hardcoded movements like sit, stand etc ...
+
+- Test a specific action (most of the others widgets)
+
+#### About predefined function
+
+If you use ```forward```, ```backward```, ```rotate_right``` or ```rotate_left``` you have to stop the movement using ```stop``` 
+
+You must be in position ```stand2``` if you want to call ```
+
 
 ## Pinout
 
