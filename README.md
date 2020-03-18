@@ -1,9 +1,7 @@
 # Hexapod
 
-![alt text](.github/hexapod_frontview.jpg "demo")
-
-![alt text](https://www.youtube.com/watch?v=htWsSTcH6iU&feature=youtu.be "videodemo")
-
+[![Alt text](.github/hexapod_frontview.jpg)](https://www.youtube.com/watch?v=htWsSTcH6iU&feature=youtu.be "Youtube demo")
+***You can click this image for a demo video***
 
 ## Quick start
 
@@ -31,9 +29,6 @@ There are two mains usages for the gui
 #### About predefined function
 
 If you use ```forward```, ```backward```, ```rotate_right``` or ```rotate_left``` you have to stop the movement using ```stop``` 
-
-You must be in position ```stand2``` if you want to call ```
-
 
 ## Pinout
 
