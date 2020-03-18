@@ -3,6 +3,7 @@ import sys
 import time
 import threading
 
+
 ENGINES = {
     "fron_l_hori": HORI_FRONT_L,
     "fron_l_knee": KNEE_FRONT_L,
@@ -42,13 +43,9 @@ class Hexapod_movements:
         self.string_to_send += command
 
     def send_command(self, engine, angle, speed):
-        # print(f"engine{engine}, angle{angle}, speed{speed}")
         angle = convert_angle(angle, engine)
-        command = "#%dP%.0fS%d" % (engine, angle, speed)   # Command to send
-        # self.string_to_send += command
-
-        #          #=pin P=position S=speed !=EOL for arduino decode
-        # print("Sending : ", command)
+        command = "#%dP%.0fS%d" % (engine, angle, speed)
+        #=pin P=position S=speed !=EOL for arduino decode
         self.hexapod_connection.send_command(command)
 
     def move(self, engine, angle, sleep=0, directly_send=False, send=False, sleep_time=False):
@@ -86,7 +83,7 @@ class HardcodedMovements:
         if send != None:
             self.hexapod.send_command_group()
 
-    def sit(self): # OK
+    def sit(self):
         self.stand()
         self.move_kind("vert", 1, send=True)
         time.sleep(0.5)
@@ -103,7 +100,7 @@ class HardcodedMovements:
             self.hexapod.move(HORI_REAR_L, 0.3)
             self.hexapod.move(HORI_REAR_R, 0.7, send=True)
 
-    def stand(self): # OK
+    def stand(self):
         self.place_hori('normal')
         self.move_kind("knee", 0.4, send=True)
         time.sleep(0.25)

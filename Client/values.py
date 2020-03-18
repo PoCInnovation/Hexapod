@@ -44,10 +44,7 @@ def get_engine_zone(engine):
 
 
 def get_engine_side(engine):
-    if engine < 15:
-        return RIGHT
-    else:
-        return LEFT
+    return RIGHT if engine < 15 else LEFT
 
 
 def get_engine_min_max(engine):
@@ -68,12 +65,12 @@ def set_engine_min_max(engine, new_min, new_max):
 
 
 def convert_angle(angle, engine):
-
-    # print("ENG" , engine)
+    """ Converts a ratio (0 -> 1) to an engine angle """
     vals = get_engine_min_max(engine)
     return angle * (vals[MAX] - vals[MIN]) + vals[MIN]
 
 
 def angle_to_ratio(angle, engine):
+    """ Converts an engine angle to a ratio (0 -> 1)  """
     vals = get_engine_min_max(engine)
     return (angle - vals[MAX]) / (vals[MIN] - vals[MAX])
