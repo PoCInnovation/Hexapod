@@ -6,13 +6,12 @@ class Drawer:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Reverse Kinematic")
-        self.can = tk.Canvas(self.root, width=600, height=600,
+        self.can = tk.Canvas(self.root, width=1200, height=1000,
             bg="black", highlightthickness=0)
         self.can.pack()
         self.root.bind_all("<Escape>", self.quit)
         self.can.bind('<Motion>', self.handle_mouse_motion)
 
-        # leg
         self.leg = Leg()
         self.draw_leg()
 
@@ -38,13 +37,13 @@ class Drawer:
         segments = self.leg.get_segments()
 
         for i, segment in enumerate(segments):
-            # A little circe to show the base
             self.can.create_line(
                 segment.p1.x, segment.p1.y,
                 segment.p2.x, segment.p2.y,
-                fil="green", width=6
+                fil="green", width=15
             )
 
+            # A little circle to show the base of the segment
             self.can.create_oval(
                 segment.p1.x - 10, segment.p1.y - 10,
                 segment.p1.x + 10, segment.p1.y + 10,
