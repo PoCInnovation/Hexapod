@@ -33,22 +33,20 @@ class Drawer:
         self.root.destroy()
 
     def draw_leg(self):
-        colors = ['red', 'blue', 'yellow']
+        colors = ['green', 'blue', 'yellow']
+
         segments = self.leg.get_segments()
 
         for i, segment in enumerate(segments):
             self.can.create_line(
                 segment.p1.x, segment.p1.y,
                 segment.p2.x, segment.p2.y,
-                fil="green", width=15
+                fil=colors[i], width=15
             )
 
             # A little circle to show the base of the segment
             self.can.create_oval(
                 segment.p1.x - 10, segment.p1.y - 10,
                 segment.p1.x + 10, segment.p1.y + 10,
-                fill=colors[i]
+                fill='red'
             )
-
-
-

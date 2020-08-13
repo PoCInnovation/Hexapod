@@ -12,5 +12,12 @@ class Leg:
         return self.segments
 
     def head_to(self, tx, ty):
+        lastx = -1
+        lasty = -1
         for seg in self.segments:
+            if lastx != -1 and lasty != -1:
+                seg.p1.x = lastx
+                seg.p1.y = lasty
             seg.follow(tx, ty)
+            lastx = seg.p2.x
+            lasty = seg.p2.y
