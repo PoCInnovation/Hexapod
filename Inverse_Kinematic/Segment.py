@@ -19,14 +19,8 @@ class Segment:
     def update(self):
         self.__compute_p2()
 
-    def __compute_segment_vector(self):
-        return self.p2 - self.p1
-
-
     def follow(self, tx, ty):
         target = Pvector(tx, ty)
         direction = target - self.p1
         self.angle = direction.heading()
         self.__compute_p2()
-        print(direction)
-        print(self.angle)

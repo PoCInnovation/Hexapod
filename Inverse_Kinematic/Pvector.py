@@ -14,8 +14,12 @@ class Pvector:
         new_y = self.y - p2.y
         return Pvector(new_x, new_y)
 
+    def __mult__(self, n):
+        self.x *= n
+        self.y *= n
+
     def heading(self):
-        return math.atan2(self.x, self.y)
+        return math.atan2(self.y, self.x)
 
     def __str__(self):
         return f"x : {self.x} y : {self.y}"
