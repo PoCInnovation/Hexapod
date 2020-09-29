@@ -50,7 +50,7 @@ void setup()
 
 void get_client_string(WiFiClient client)
 {
-    const int STR_LEN = 512
+    const int STR_LEN = 512;
     char str[512];
     char c;
     int i = 1;
@@ -63,7 +63,7 @@ void get_client_string(WiFiClient client)
         i += 1;
     }
     str[i] = '\0';
-    portBoardHexapod.println(str);
+    port.println(str);
     Serial.println(str); //debug
 }
 
