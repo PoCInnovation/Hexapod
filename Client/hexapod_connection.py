@@ -92,7 +92,7 @@ class HexapodConnection:
                 exit(1)
         else:
             command.replace('!', '')
-            t = 'echo "' + command + '" > /dev/ttyUSB0'
+            t = 'echo "' + command + '" > /dev/tty.usbserial-0001'
             os.system(t)
         # print("sending : ", command)
         # self.save_engine_position(command)
