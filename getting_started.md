@@ -62,15 +62,15 @@ In order for the order the hexapod's board to position a servo, you must send a 
 # <ch> P <pw> S <spd> T <time> <cr>
 ```
 
--  <ch>: pin / channel to which the servo is connected (0 to 31) in decimal
+-  **ch**: pin / channel to which the servo is connected (0 to 31) in decimal
 
--  <pw>: desired pulse width (normally 500 to 2500) in microseconds
+-  **pw**: desired pulse width (normally 500 to 2500) in microseconds
 
-- *-<spd>*: servo movement speed in microseconds per second*
+- **spd**: servo movement speed in microseconds per second*
 
-- *<time>*: time in microseconds to travel from the current position to the desired position. This affects all servos (65535 max)
+- **time**: time in microseconds to travel from the current position to the desired position. This affects all servos (65535 max)
 
-- <cr>: carriage return (ASCII 13)**
+- **cr**: carriage return (ASCII 13)**
 
 Example:
 
