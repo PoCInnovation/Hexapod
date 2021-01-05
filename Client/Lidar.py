@@ -1,31 +1,41 @@
+#!/usr/bin/env python3
+
 import serial
 import sys
-
-values = bytearray([0xA5, 0x65])
-ser.write(values)
+import binascii
 
 class Lidar:
     def __init__(self, port='/dev/ttyUSB0'):
         self.baudrate = 230400
-        self.port = '/dev/ttyUSB0'
+        self.port = port
         self.serial_con = serial.Serial(self.port, self.baudrate)
 
-    def _send(arr):
+    def _send(self, arr):
         self.serial_con.write(arr)
 
-    def start():
+    def start(self):
         values = bytearray([0xA5, 0x60])
-        self.send(values)
+        self._send(values)
 
-    def stop():
+    def stop(self):
         values = bytearray([0xA5, 0x65])
-        self.send(values)
+        self._send(values)
 
-    def read():
-        pass
+    def read(self):
+        b = self.serial_con.read(8)
+        b = binascii.hexlify(bytearray(b))
+        print(b)
+
+        for i in range(180):
+            b = self.serial_con.read(14)
+            b = binascii.hexlify(bytearray(b))
+            print(b)
 
 def main(argc, argv):
-    l = Lidar
+    if argc == 2:
+        l = Lidar(sys.argv[1])
+    else :
+        l = Lidar
     l.start()
     l.read()
     l.stop()
