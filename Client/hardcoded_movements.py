@@ -2,7 +2,7 @@ from values import *
 import sys
 import time
 import threading
-
+import random
 
 ENGINES = {
     "fron_l_hori": HORI_FRONT_L,
@@ -356,3 +356,13 @@ class HardcodedMovements:
     def stop(self):
         self.continue_movement = False
         self.thread_walk.join()
+
+    def replace_legs(self):
+        vert_engines = [VERT_FRONT_L, VERT_MIDDLE_L, VERT_REAR_L, VERT_FRONT_R, VERT_MIDDLE_R, VERT_REAR_R]
+        random.shuffle(vert_engines)
+
+        self.hexapod.set_movements_speed(2300)
+        for eng in vert_engines:
+            self.hexapod.move(eng, 0.7, send=True, sleep_time=0.1)
+            self.hexapod.move(eng, 0.5, send=True)
+        self.hexapod.set_movements_speed(-1)
