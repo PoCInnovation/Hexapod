@@ -366,3 +366,6 @@ class HardcodedMovements:
             self.hexapod.move(eng, 0.7, send=True, sleep_time=0.1)
             self.hexapod.move(eng, 0.5, send=True)
         self.hexapod.set_movements_speed(-1)
+
+    def test_feedback(self):
+        pass

@@ -1,4 +1,5 @@
 import time
+import serial
 import socket
 import os
 from values import *
@@ -6,82 +7,37 @@ from values import *
 SOCKET_HOST = "192.168.4.1"  # ESP32 IP in local network
 SOCKET_PORT = 80             # ESP32 Server Port
 
-ENGINES_POSITION = {
-    VERT_REAR_R   : 0,
-    HORI_REAR_R   : 0,
-    VERT_MIDDLE_R : 0,
-    HORI_MIDDLE_R : 0,
-    VERT_FRONT_R  : 0,
-    HORI_FRONT_R  : 0,
-    KNEE_REAR_R   : 0,
-    KNEE_MIDDLE_R : 0,
-    KNEE_FRONT_R  : 0,
-    VERT_REAR_L   : 0,
-    HORI_REAR_L   : 0,
-    VERT_MIDDLE_L : 0,
-    HORI_MIDDLE_L : 0,
-    VERT_FRONT_L  : 0,
-    HORI_FRONT_L  : 0,
-    KNEE_REAR_L   : 0,
-    KNEE_MIDDLE_L : 0,
-    KNEE_FRONT_L  : 0
-}
-
-
 class HexapodConnection:
     """
     Class helping with hardware communication
     Compatible with wired/wireless
     """
 
-    def __init__(self, host=SOCKET_HOST, port=SOCKET_PORT, mode="wifi"):
-        self.mode = mode
-        if self.mode == "wifi":
-            self.socket = socket.socket()
-            self.host = host
-            self.port = port
-            self.init_connection()
+    def __init__(self, serial_port):
+        self.serial_port= serial_port
 
-    def close(self):
-        if self.mode == "wifi":
-            self.socket.close()
+        if self.serial_port == None:
+            self.socket = socket.socket()
+            self.host = SOCKET_HOST
+            self.socket_port = SOCKET_PORT
+            self.init_connection()
+        else:
+            self.serial_con = serial.Serial(self.serial_port, 9600)
 
     def init_connection(self):
         print("Connecting...")
         try:
-            self.socket.connect((self.host, self.port))
+            self.socket.connect((self.host, self.socket_port))
         except:
             print("\nYou must connect to Hexapod's wifi first")
             exit(1)
 
-    def save_engine_position(self, command):
-        global ENGINES_POSITION
-        try:
-            commands_array = command.split('#')
-        except: # user error
-            print('could not split : ', command)
-            return
-
-        for com in commands_array:
-            if len(com) == 0:
-                continue
-            try:
-                engine = int(com[0:com.index('P')])
-                position = int(com[com.index('P') + 1:com.index('S')])
-                ENGINES_POSITION[engine] = position
-            except:
-                print("Could not save engine position with the command", com)
-                continue
-
-    def get_engine_position(self, engine):
-        if type(engine) == str:
-            if engine == 'all':
-                return ENGINES_POSITION
-        elif type(engine) == int:
-            return ENGINES_POSITION[engine]
+    def close(self):
+        if self.serial_port == None:
+            self.socket.close()
 
     def send_command(self, command, sleep_time=0):
-        if self.mode == "wifi":
+        if self.serial_port == None:
             print(command)
             command = bytes(command.encode('utf-8'))
             try:
@@ -92,8 +48,10 @@ class HexapodConnection:
                 exit(1)
         else:
             command.replace('!', '')
-            t = 'echo "' + command + '" > /dev/ttyUSB0'
+            # self.serial_con.write(command.encode())
+            # print(command)
+            # print(command.encode())
+            t = 'echo "' + command + '" > /dev/tty.usbserial-AK06II1T'
             os.system(t)
         # print("sending : ", command)
-        # self.save_engine_position(command)
         # time.sleep(sleep_time)

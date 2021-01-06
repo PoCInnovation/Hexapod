@@ -55,8 +55,8 @@ class RadiobuttonGroup:
 
 
 class Gui:
-    def __init__(self, mode):
-        self.connection = HexapodConnection(mode=mode)
+    def __init__(self, port=None):
+        self.connection = HexapodConnection(port)
         self.hardcoded_movements = hardcoded_movements.HardcodedMovements(self.connection)
         self.setup_window()
 
@@ -207,7 +207,7 @@ class Gui:
 
     def place_action_frame(self):
         self.action_btn_frame = LabelFrame(self.fen, bd=2, relief='sunken', pady=20, text='Actions :', labelanchor='n', padx=25)
-        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop", "backward", "rotate_right", "rotate_left", "replace_legs"]
+        self.action_btn = ["sit", "stand", "stand1", "stand2", "stand3", "wave", "dab", "forward", "stop", "backward", "rotate_right", "rotate_left", "replace_legs", "test_feedback"]
         i, j = 1, 1
         for k in range(len(self.action_btn)):
             Button(self.action_btn_frame, text=self.action_btn[k], command=getattr(self.hardcoded_movements, self.action_btn[k])).grid(row=2 + j, column=i, padx=5)
@@ -337,9 +337,15 @@ class Gui:
         self.fen.quit()
         self.fen.destroy()
 
-if __name__ == '__main__':
-    if len(sys.argv) == 2 and sys.argv[1] == "--wire":
-        Gui("wire")
+
+def main(argc, argv):
+    if argc == 2:
+        print("Starting wired mode")
+        Gui(argv[1])
     else:
-        print("Use --wire if you want to connect using a wire\n")
-        Gui("wifi")
+        print("Specify port if you want to connect using a wire\n")
+        print("Starting bluetooth mode")
+        Gui()
+
+if __name__ == '__main__':
+    main(len(sys.argv), sys.argv)
