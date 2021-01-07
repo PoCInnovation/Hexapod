@@ -7,7 +7,8 @@ private:
 
 public:
     AutonomousMode();
-    void start();
+    void setup();
+    void loop();
 };
 
 #endif /* AUTONOMOUS_MODE_HPP */

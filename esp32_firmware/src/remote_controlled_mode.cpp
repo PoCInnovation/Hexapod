@@ -5,9 +5,12 @@ RemoteControlledMode::RemoteControlledMode()
 
 }
 
-void RemoteControlledMode::start()
+void RemoteControlledMode::setup()
 {
-    while (1) {
 
-    }
+}
+
+void RemoteControlledMode::loop()
+{
+
 }

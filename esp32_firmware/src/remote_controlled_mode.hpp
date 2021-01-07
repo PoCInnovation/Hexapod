@@ -7,7 +7,8 @@ private:
 
 public:
     RemoteControlledMode();
-    void start();
+    void setup();
+    void loop();
 };
 
 #endif /* REMOTE_CONTROLLED_MODE_HPP */

@@ -4,9 +4,12 @@ SlaveMode::SlaveMode()
 {
 }
 
-void SlaveMode::start()
+void SlaveMode::setup()
 {
-    while (1) {
 
-    }
+}
+
+void SlaveMode::loop()
+{
+
 }

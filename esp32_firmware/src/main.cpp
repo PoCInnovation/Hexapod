@@ -1,10 +1,17 @@
 #include <Arduino.h>
 
 #include "rgbled.hpp"
+#include "slave_mode.hpp"
+#include "autonomous_mode.hpp"
+#include "remote_controlled_mode.hpp"
 
 #include "BluetoothSerial.h"
+
 // #include <SoftwareSerial.h>
 
+SlaveMode slaveMode;
+RemoteControlledMode remoteControlledMode;
+AutonomousMode autonomousMode;
 
 BluetoothSerial SerialBT;
 
@@ -47,10 +54,13 @@ void setup()
 
     switch (firmware_mode) {
         case SLAVE:
+            slaveMode.setup();
             break;
         case REMOTE_CONTROLLED:
+            remoteControlledMode.setup();
             break;
         case AUTONOMOUS:
+            autonomousMode.setup();
             break;
     }
 }
@@ -64,5 +74,15 @@ void setup()
 
 void loop()
 {
-    // never read
+    switch (firmware_mode) {
+        case SLAVE:
+            slaveMode.loop();
+            break;
+        case REMOTE_CONTROLLED:
+            remoteControlledMode.loop();
+            break;
+        case AUTONOMOUS:
+            autonomousMode.loop();
+            break;
+    }
 }

@@ -7,7 +7,8 @@ private:
 
 public:
     SlaveMode();
-    void start();
+    void setup();
+    void loop();
 };
 
 #endif /* SLAVE_MODE_HPP */

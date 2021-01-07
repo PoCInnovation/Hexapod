@@ -4,9 +4,12 @@ AutonomousMode::AutonomousMode()
 {
 }
 
-void AutonomousMode::start()
+void AutonomousMode::setup()
 {
-    while (1) {
 
-    }
+}
+
+void AutonomousMode::loop()
+{
+
 }
