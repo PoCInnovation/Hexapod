@@ -1,6 +1,7 @@
 #include "remote_controlled_mode.hpp"
 
-RemoteControlledMode::RemoteControlledMode()
+RemoteControlledMode::RemoteControlledMode(HexapodSerialController &hexapodSerialController) :
+    _hexapodSerialController(hexapodSerialController)
 {
 
 }

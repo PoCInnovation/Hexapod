@@ -4,16 +4,12 @@
 #include "slave_mode.hpp"
 #include "autonomous_mode.hpp"
 #include "remote_controlled_mode.hpp"
+#include "HexapodSerialController.hpp"
 
-#include "BluetoothSerial.h"
-
-// #include <SoftwareSerial.h>
-
-SlaveMode slaveMode;
-RemoteControlledMode remoteControlledMode;
-AutonomousMode autonomousMode;
-
-BluetoothSerial SerialBT;
+HexapodSerialController hexapodSerialController;
+SlaveMode slaveMode(hexapodSerialController);
+RemoteControlledMode remoteControlledMode(hexapodSerialController);
+AutonomousMode autonomousMode(hexapodSerialController);
 
 // SoftwareSerial serial_con_hexapod(2, 15);
 
@@ -33,7 +29,6 @@ void setup()
 {
     Serial.begin(115200);
     // serial_con_hexapod.begin(9600);
-    SerialBT.begin("HexaPoC");
 
     pinMode(PIN_MODE_SELECTOR_1, INPUT_PULLDOWN);
     pinMode(PIN_MODE_SELECTOR_2, INPUT_PULLDOWN);
@@ -64,13 +59,6 @@ void setup()
             break;
     }
 }
-   // if (Serial.available()) {
-    //     SerialBT.write(Serial.read());
-    // }
-    // if (SerialBT.available()) {
-        // Serial.write(SerialBT.read());
-    // }
-    // delay(20);
 
 void loop()
 {

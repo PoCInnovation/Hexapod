@@ -1,14 +1,18 @@
 #ifndef SLAVE_MODE_HPP
 #define SLAVE_MODE_HPP
 
-class SlaveMode
-{
-private:
+#include "BluetoothSerial.h"
+#include "HexapodSerialController.hpp"
 
-public:
-    SlaveMode();
-    void setup();
-    void loop();
+class SlaveMode {
+    private:
+        BluetoothSerial _SerialBT;
+        HexapodSerialController &_hexapodSerialController;
+
+    public:
+        SlaveMode(HexapodSerialController &hexapodSerialController);
+        void setup();
+        void loop();
 };
 
 #endif /* SLAVE_MODE_HPP */

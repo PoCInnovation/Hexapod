@@ -1,6 +1,7 @@
 #include "autonomous_mode.hpp"
 
-AutonomousMode::AutonomousMode()
+AutonomousMode::AutonomousMode(HexapodSerialController &hexapodSerialController) :
+    _hexapodSerialController(hexapodSerialController)
 {
 }
 
