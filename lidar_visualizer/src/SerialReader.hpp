@@ -1,0 +1,5 @@
+#ifndef SERIALREADER_HPP
+#define SERIALREADER_HPP
+
+
+#endif // SERIALREADER_HPP
