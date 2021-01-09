@@ -14,8 +14,6 @@ void SlaveMode::setup()
 void SlaveMode::loop()
 {
     if (_SerialBT.available()) {
-        // Serial.write(_SerialBT.read());
         _hexapodSerialController.send(_SerialBT.read());
-
     }
 }
