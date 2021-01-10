@@ -1,4 +1,8 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
+#include <sys/stat.h>
+#include <unistd.h>
+#include <filesystem>
 
 void drawRadarView(sf::RenderWindow &win, sf::CircleShape &circle)
 {
@@ -19,11 +23,40 @@ void drawRadarView(sf::RenderWindow &win, sf::CircleShape &circle)
     win.draw(circle);
 }
 
+void draw_hud(sf::RenderWindow &win, sf::Text &text)
+{
+    text.setCharacterSize(45);
+    text.setPosition(1300, 10);
+    text.setString("Keys : ");
+    win.draw(text);
+
+    int y = 100;
+    text.setCharacterSize(30);
+    for (auto &txt : {"s  -> Start Lidar",
+                      "t  -> Stop Lidar",
+                      "p  -> Toggle Freeze Screen"}) {
+        text.setPosition(1300, y);
+        text.setString(txt);
+        win.draw(text);
+        y += 50;
+    }
+}
+
 int main(int argc, const char **argv)
 {
+    if (argc != 2) {
+        std::cerr << "Usage: ./lidar_visualizer port" << std::endl;
+        return EXIT_FAILURE;
+    }
+
+    if (!std::filesystem::exists(argv[1])) {
+        std::cerr << "No such file: " << argv[1]  << std::endl;
+        return EXIT_FAILURE;
+    }
+
     // create window
     sf::RenderWindow win;
-    win.create(sf::VideoMode(1200, 1200), "Lidar Visualizer", sf::Style::Default);
+    win.create(sf::VideoMode(1800, 1200), "Lidar Visualizer", sf::Style::Default);
     win.setFramerateLimit(60);
 
     // create cirle
@@ -32,6 +65,18 @@ int main(int argc, const char **argv)
     circle.setPosition(600, 600);
     circle.setFillColor(sf::Color::Black);
     circle.setOutlineColor(sf::Color::Green);
+
+    // create line separation
+    sf::RectangleShape rect;
+    rect.setFillColor(sf::Color::White);
+    rect.setSize(sf::Vector2f(10, 1200));
+    rect.setPosition(1250, 0);
+
+    // create text and font
+    sf::Font font;
+    font.loadFromFile("lemon_font.otf");
+    sf::Text text;
+    text.setFont(font);
 
     sf::Event evt;
 
@@ -46,7 +91,9 @@ int main(int argc, const char **argv)
         }
         win.clear(sf::Color::Black);
         drawRadarView(win, circle);
+        win.draw(rect);
+        draw_hud(win, text);
         win.display();
     }
-    return 0;
+    return EXIT_SUCCESS;
 }
