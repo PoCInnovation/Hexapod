@@ -3,19 +3,16 @@
 Gui::Gui(std::string &port) : _port(port)
 {
     // create window
-    _win.create(sf::VideoMode(1800, 1200), "Lidar Visualizer", sf::Style::Default);
+    _win.create(sf::VideoMode(1920, 1080), "Lidar Visualizer", sf::Style::Default);
     _win.setFramerateLimit(60);
 
     // create cirle
     _circle.setOrigin(600, 600);
-    _circle.setPosition(600, 600);
+    _circle.setPosition(510, 510);
     _circle.setFillColor(sf::Color::Black);
     _circle.setOutlineColor(sf::Color::Green);
 
-    // create line separation
-    _rect.setFillColor(sf::Color::White);
-    _rect.setSize(sf::Vector2f(10, 1200));
-    _rect.setPosition(1250, 0);
+    // create rect
 
     // create text and font
     _font.loadFromFile("lemon_font.otf");
@@ -27,7 +24,7 @@ void Gui::drawRadarView()
     _circle.setFillColor(sf::Color::Black);
 
     // 3 externals rings
-    for (int i = 6; i >= 2; i-=2) {
+    for (int i = 5; i >= 1; i--) {
         _circle.setRadius(i * 100);
         _circle.setOrigin(i * 100, i * 100);
         _circle.setOutlineThickness(i);
@@ -35,14 +32,31 @@ void Gui::drawRadarView()
     }
 
     // center _circle
-    _circle.setRadius(50);
+    _circle.setRadius(25);
     _circle.setFillColor(sf::Color::Green);
-    _circle.setOrigin(50, 50);
+    _circle.setOrigin(25, 25);
     _win.draw(_circle);
+
+    // lines
+    _rect.setSize(sf::Vector2f(2, 510));
+    _rect.setPosition(510, 510);
+    _rect.setFillColor(sf::Color::Green);
+
+    for (int i = 0; i < 12; i++) {
+        _rect.rotate(30);
+        _win.draw(_rect);
+    }
 }
 
 void Gui::drawHUD()
 {
+    // line separation
+    _rect.setFillColor(sf::Color::White);
+    _rect.setSize(sf::Vector2f(10, 1200));
+    _rect.setPosition(1250, 0);
+    _win.draw(_rect);
+
+    // keys
     _text.setCharacterSize(45);
     _text.setPosition(1300, 10);
     _text.setString("Keys : ");
@@ -58,10 +72,12 @@ void Gui::drawHUD()
         _win.draw(_text);
         y += 50;
     }
-    _text.setPosition(1270, 1160);
+
+    // filename
+    _text.setCharacterSize(20);
+    _text.setPosition(1270, 1040);
     _text.setString(_port);
     _win.draw(_text);
-
 }
 
 void Gui::start()
@@ -79,7 +95,6 @@ void Gui::start()
         }
         _win.clear(sf::Color::Black);
         this->drawRadarView();
-        _win.draw(_rect);
         this->drawHUD();
         _win.display();
     }
