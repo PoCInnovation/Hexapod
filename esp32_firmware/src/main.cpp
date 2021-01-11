@@ -13,7 +13,7 @@ AutonomousMode autonomousMode(hexapodSerialController);
 
 // SoftwareSerial serial_con_hexapod(2, 15);
 
-RGBled led(1, 2, 3);
+RGBled led(34, 35, 32);
 
 typedef enum {
     SLAVE,
@@ -29,6 +29,8 @@ void setup()
 {
     Serial.begin(115200);
     // serial_con_hexapod.begin(9600);
+
+    led.test();
 
     pinMode(PIN_MODE_SELECTOR_1, INPUT_PULLDOWN);
     pinMode(PIN_MODE_SELECTOR_2, INPUT_PULLDOWN);

@@ -15,3 +15,18 @@ void RGBled::setColor(uint8_t r, uint8_t g, uint8_t b)
 {
 
 }
+
+void RGBled::test()
+{
+    while (1) {
+        digitalWrite(_pinR, HIGH);
+        delay(1000);
+        digitalWrite(_pinR, LOW);
+        digitalWrite(_pinG, HIGH);
+        delay(1000);
+        digitalWrite(_pinG, LOW);
+        digitalWrite(_pinB, HIGH);
+        delay(1000);
+        digitalWrite(_pinB, LOW);
+    }
+}

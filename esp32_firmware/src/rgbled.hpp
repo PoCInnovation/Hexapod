@@ -16,6 +16,7 @@ private:
 public:
     RGBled(uint8_t pinR, uint8_t pinG, uint8_t pinB);
     void setColor(uint8_t r, uint8_t g, uint8_t b);
+    void test();
     void turnOff();
 };
 
