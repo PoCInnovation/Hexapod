@@ -17,6 +17,7 @@ private:
 
     void drawRadarView();
     void drawHUD();
+    void displayDebugInfos();
 
 public:
     Gui(std::string &port);

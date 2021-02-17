@@ -1,5 +1,7 @@
 #include "Gui.hpp"
 
+#define DEBUG
+
 Gui::Gui(std::string &port) : _port(port)
 {
     // create window
@@ -48,6 +50,31 @@ void Gui::drawRadarView()
     }
 }
 
+void Gui::displayDebugInfos()
+{
+    std::string buff;
+
+    _text.setCharacterSize(30);
+
+    size_t nbPoints = 0;
+    buff = "Points : " + std::to_string(nbPoints);
+    _text.setPosition(1300, 500);
+    _text.setString(buff);
+    _win.draw(_text);
+
+    size_t FPS = 0;
+    buff = "FPS: " + std::to_string(FPS);
+    _text.setPosition(1300, 550);
+    _text.setString(buff);
+    _win.draw(_text);
+
+    size_t RPM = 0;
+    buff = "RPM: " + std::to_string(RPM);
+    _text.setPosition(1300, 600);
+    _text.setString(buff);
+    _win.draw(_text);
+}
+
 void Gui::drawHUD()
 {
     // line separation
@@ -59,7 +86,7 @@ void Gui::drawHUD()
     // keys
     _text.setCharacterSize(45);
     _text.setPosition(1300, 10);
-    _text.setString("Keys : ");
+    _text.setString("Controls: ");
     _win.draw(_text);
 
     int y = 100;
@@ -78,6 +105,9 @@ void Gui::drawHUD()
     _text.setPosition(1270, 1040);
     _text.setString(_port);
     _win.draw(_text);
+#ifdef DEBUG
+    this->displayDebugInfos();
+#endif
 }
 
 void Gui::start()
