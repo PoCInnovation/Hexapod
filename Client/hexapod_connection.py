@@ -22,7 +22,11 @@ class HexapodConnection:
             self.socket_port = SOCKET_PORT
             self.init_connection()
         else:
-            self.serial_con = serial.Serial(self.serial_port, 9600)
+            try:
+                self.serial_con = serial.Serial(self.serial_port, 9600)
+            except:
+                print(f"Error: Could not open serial port {self.serial_port}")
+                pass
 
     def init_connection(self):
         print("Connecting...")
