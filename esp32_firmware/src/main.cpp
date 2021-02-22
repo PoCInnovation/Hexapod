@@ -11,9 +11,7 @@ SlaveMode slaveMode(hexapodSerialController);
 RemoteControlledMode remoteControlledMode(hexapodSerialController);
 AutonomousMode autonomousMode(hexapodSerialController);
 
-// SoftwareSerial serial_con_hexapod(2, 15);
-
-RGBled led(34, 35, 32);
+RGBled led(33, 25, 32);
 
 typedef enum {
     SLAVE,
@@ -22,21 +20,21 @@ typedef enum {
 } firmware_mode_e;
 firmware_mode_e firmware_mode;
 
-const uint8_t PIN_MODE_SELECTOR_1 = 8;
-const uint8_t PIN_MODE_SELECTOR_2 = 9;
+const uint8_t PIN_MODE_SELECTOR_1 = 34;
+const uint8_t PIN_MODE_SELECTOR_2 = 35;
 
 void setup()
 {
     Serial.begin(115200);
-    // serial_con_hexapod.begin(9600);
 
-    led.test();
+    pinMode(PIN_MODE_SELECTOR_1, INPUT_PULLUP);
+    pinMode(PIN_MODE_SELECTOR_2, INPUT_PULLUP);
 
-    pinMode(PIN_MODE_SELECTOR_1, INPUT_PULLDOWN);
-    pinMode(PIN_MODE_SELECTOR_2, INPUT_PULLDOWN);
+    const uint8_t state1 = !digitalRead(PIN_MODE_SELECTOR_1);
+    const uint8_t state2 = !digitalRead(PIN_MODE_SELECTOR_2);
 
-    const uint8_t state1 = digitalRead(PIN_MODE_SELECTOR_1);
-    const uint8_t state2 = digitalRead(PIN_MODE_SELECTOR_2);
+    Serial.println(state1);
+    Serial.println(state2);
 
     if (state1 && !state2) {
         firmware_mode = SLAVE;
@@ -64,15 +62,15 @@ void setup()
 
 void loop()
 {
-    switch (firmware_mode) {
-        case SLAVE:
-            slaveMode.loop();
-            break;
-        case REMOTE_CONTROLLED:
-            remoteControlledMode.loop();
-            break;
-        case AUTONOMOUS:
-            autonomousMode.loop();
-            break;
-    }
+    // switch (firmware_mode) {
+    //     case SLAVE:
+    //         slaveMode.loop();
+    //         break;
+    //     case REMOTE_CONTROLLED:
+    //         remoteControlledMode.loop();
+    //         break;
+    //     case AUTONOMOUS:
+    //         autonomousMode.loop();
+    //         break;
+    // }
 }

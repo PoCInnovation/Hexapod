@@ -13,7 +13,17 @@ RGBled::RGBled(uint8_t pinR, uint8_t pinG, uint8_t pinB)
 
 void RGBled::setColor(uint8_t r, uint8_t g, uint8_t b)
 {
+    digitalWrite(_pinR, LOW);
+    digitalWrite(_pinG, LOW);
+    digitalWrite(_pinB, LOW);
 
+    if (r) {
+        digitalWrite(_pinR, HIGH);
+    } else if (g) {
+        digitalWrite(_pinG, HIGH);
+    } else if (b) {
+        digitalWrite(_pinB, HIGH);
+    }
 }
 
 void RGBled::test()
@@ -22,9 +32,11 @@ void RGBled::test()
         digitalWrite(_pinR, HIGH);
         delay(1000);
         digitalWrite(_pinR, LOW);
+
         digitalWrite(_pinG, HIGH);
         delay(1000);
         digitalWrite(_pinG, LOW);
+
         digitalWrite(_pinB, HIGH);
         delay(1000);
         digitalWrite(_pinB, LOW);
