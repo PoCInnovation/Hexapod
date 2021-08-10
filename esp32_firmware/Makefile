@@ -12,7 +12,10 @@ flash_debug:
 	@pio run -e debug --target upload
 
 flash_and_monitor: flash_debug
-	screen /dev/ttyUSB0 115200
+	screen /dev/ttyUSB* 115200
+
+monitor:
+	screen /dev/ttyUSB* 115200
 
 clean_debug:
 	@pio run -e debug --target clean
@@ -30,4 +33,4 @@ clean_release:
 # common
 clean_all: clean_debug clean_release
 
-.PHONY: all flash clean debug flash_debug clean_debug release flash_release clean_release clean_all
+.PHONY: all flash clean debug flash_debug clean_debug release flash_release clean_release clean_all flash_and_monitor monitor
