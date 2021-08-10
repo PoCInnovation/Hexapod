@@ -13,10 +13,7 @@ SlaveMode::SlaveMode(HexapodSerialController &hexapodSerialController) :
 
 void SlaveMode::bleRxCallback(std::string str)
 {
-    Serial.println("Received in cb:");
-    Serial.println(str.c_str());
-    Serial.println();
-    Serial.println("OIK");
+    _hexapodSerialController.send(str.c_str());
 }
 
 void SlaveMode::setup()

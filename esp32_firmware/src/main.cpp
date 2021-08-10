@@ -7,10 +7,10 @@
 
 #include <Arduino.h>
 
-HexapodSerialController hexapodSerialController;
-SlaveMode slaveMode(hexapodSerialController);
-RemoteControlledMode remoteControlledMode(hexapodSerialController);
-AutonomousMode autonomousMode(hexapodSerialController);
+static HexapodSerialController hexapodSerialController(1);
+static SlaveMode slaveMode(hexapodSerialController);
+static RemoteControlledMode remoteControlledMode(hexapodSerialController);
+static AutonomousMode autonomousMode(hexapodSerialController);
 
 RGBled led(33, 25, 32);
 
@@ -31,11 +31,12 @@ void setup()
     pinMode(PIN_MODE_SELECTOR_1, INPUT_PULLUP);
     pinMode(PIN_MODE_SELECTOR_2, INPUT_PULLUP);
 
-    // const uint8_t state1 = !digitalRead(PIN_MODE_SELECTOR_1);
-    // const uint8_t state2 = !digitalRead(PIN_MODE_SELECTOR_2);
+    const uint8_t state1 = !digitalRead(PIN_MODE_SELECTOR_1);
+    const uint8_t state2 = !digitalRead(PIN_MODE_SELECTOR_2);
 
-    const uint8_t state1 = true;
-    const uint8_t state2 = false;
+    // Debug stuff
+    // const uint8_t state1 = true;
+    // const uint8_t state2 = false;
 
     Serial.println(state1);
     Serial.println(state2);

@@ -5,13 +5,12 @@
 
 class HexapodSerialController {
   private:
-    /* data */
     HardwareSerial _mySerial;
 
   public:
-    HexapodSerialController(/* args */);
-    void send(char *buff);
-    // void send(int byte);
+    HexapodSerialController(int uart_nb);
+    void send(const char *buff);
+    void send(int byte);
     // void read();
 };
 

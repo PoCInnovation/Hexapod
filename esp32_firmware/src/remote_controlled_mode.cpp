@@ -15,6 +15,7 @@ void RemoteControlledMode::bleRxCallback(std::string str)
     Serial.println(str.c_str());
     Serial.println();
     Serial.println("OIK");
+    // _hexapodSerialController.send(str.c_str());
 }
 
 void RemoteControlledMode::setup()
