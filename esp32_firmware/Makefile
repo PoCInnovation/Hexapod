@@ -11,6 +11,9 @@ debug:
 flash_debug:
 	@pio run -e debug --target upload
 
+flash_and_monitor: flash_debug
+	screen /dev/ttyUSB0 115200
+
 clean_debug:
 	@pio run -e debug --target clean
 

@@ -1,11 +1,11 @@
 #include "Lidar.hpp"
+
 #include "lidar_protocol.h"
 
 #define START_BYTE 0xA5
 
 Lidar::Lidar() : _lidarSerial(115200)
 {
-
 }
 
 void Lidar::start()

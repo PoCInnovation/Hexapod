@@ -1,10 +1,11 @@
-#include <Arduino.h>
-
+#include "HexapodSerialController.hpp"
+#include "autonomous_mode.hpp"
+#include "ble_con.hpp"
+#include "remote_controlled_mode.hpp"
 #include "rgbled.hpp"
 #include "slave_mode.hpp"
-#include "autonomous_mode.hpp"
-#include "remote_controlled_mode.hpp"
-#include "HexapodSerialController.hpp"
+
+#include <Arduino.h>
 
 HexapodSerialController hexapodSerialController;
 SlaveMode slaveMode(hexapodSerialController);
@@ -30,47 +31,46 @@ void setup()
     pinMode(PIN_MODE_SELECTOR_1, INPUT_PULLUP);
     pinMode(PIN_MODE_SELECTOR_2, INPUT_PULLUP);
 
-    const uint8_t state1 = !digitalRead(PIN_MODE_SELECTOR_1);
-    const uint8_t state2 = !digitalRead(PIN_MODE_SELECTOR_2);
+    // const uint8_t state1 = !digitalRead(PIN_MODE_SELECTOR_1);
+    // const uint8_t state2 = !digitalRead(PIN_MODE_SELECTOR_2);
+
+    const uint8_t state1 = true;
+    const uint8_t state2 = false;
 
     Serial.println(state1);
     Serial.println(state2);
 
+    BleCon::init();
+
     if (state1 && !state2) {
+        Serial.println("Slave mode");
         firmware_mode = SLAVE;
         led.setColor(RGB_RED);
+        slaveMode.setup();
     } else if (state2 && !state1) {
+        Serial.println("Remote mode");
         firmware_mode = REMOTE_CONTROLLED;
         led.setColor(RGB_GREEN);
-    } else { // !state1 && !state2
+        remoteControlledMode.setup();
+    } else {  // !state1 && !state2
+        Serial.println("Automomous mode");
         firmware_mode = AUTONOMOUS;
         led.setColor(RGB_BLUE);
-    }
-
-    switch (firmware_mode) {
-        case SLAVE:
-            slaveMode.setup();
-            break;
-        case REMOTE_CONTROLLED:
-            remoteControlledMode.setup();
-            break;
-        case AUTONOMOUS:
-            autonomousMode.setup();
-            break;
+        autonomousMode.setup();
     }
 }
 
 void loop()
 {
-    // switch (firmware_mode) {
-    //     case SLAVE:
-    //         slaveMode.loop();
-    //         break;
-    //     case REMOTE_CONTROLLED:
-    //         remoteControlledMode.loop();
-    //         break;
-    //     case AUTONOMOUS:
-    //         autonomousMode.loop();
-    //         break;
-    // }
+    switch (firmware_mode) {
+        case SLAVE:
+            slaveMode.loop();
+            break;
+        case REMOTE_CONTROLLED:
+            remoteControlledMode.loop();
+            break;
+        case AUTONOMOUS:
+            autonomousMode.loop();
+            break;
+    }
 }

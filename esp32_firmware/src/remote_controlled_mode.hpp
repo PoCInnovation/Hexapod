@@ -3,12 +3,14 @@
 
 #include "HexapodSerialController.hpp"
 
-class RemoteControlledMode
-{
-private:
-    HexapodSerialController &_hexapodSerialController;
+#include <string>
 
-public:
+class RemoteControlledMode {
+  private:
+    HexapodSerialController &_hexapodSerialController;
+    void bleRxCallback(std::string str);
+
+  public:
     RemoteControlledMode(HexapodSerialController &hexapodSerialController);
     void setup();
     void loop();

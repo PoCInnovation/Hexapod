@@ -13,10 +13,10 @@ void HexapodSerialController::send(char *buff)
     _mySerial.write(buff);
 }
 
-void HexapodSerialController::send(int byte)
-{
-    while (!_mySerial.availableForWrite()) {
-        ;
-    }
-    _mySerial.write(byte);
-}
+// void HexapodSerialController::send(int byte)
+// {
+//     while (!_mySerial.availableForWrite()) {
+//         ;
+//     }
+//     _mySerial.write(byte);
+// }

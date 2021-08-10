@@ -7,10 +7,8 @@ AutonomousMode::AutonomousMode(HexapodSerialController &hexapodSerialController)
 
 void AutonomousMode::setup()
 {
-
 }
 
 void AutonomousMode::loop()
 {
-
 }

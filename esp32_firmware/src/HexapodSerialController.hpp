@@ -4,15 +4,15 @@
 #include "HardwareSerial.h"
 
 class HexapodSerialController {
-    private:
-        /* data */
-        HardwareSerial _mySerial;
+  private:
+    /* data */
+    HardwareSerial _mySerial;
 
-    public:
-        HexapodSerialController(/* args */);
-        void send(char *buff);
-        void send(int byte);
-        // void read();
+  public:
+    HexapodSerialController(/* args */);
+    void send(char *buff);
+    // void send(int byte);
+    // void read();
 };
 
 #endif /* HEXAPODSERIALCONTROLLER_HPP */

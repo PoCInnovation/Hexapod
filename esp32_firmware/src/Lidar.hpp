@@ -4,13 +4,13 @@
 #include "HardwareSerial.h"
 
 class Lidar {
-    public:
-        Lidar();
-        void start();
-        void stop();
+  public:
+    Lidar();
+    void start();
+    void stop();
 
-    private:
-        HardwareSerial _lidarSerial;
+  private:
+    HardwareSerial _lidarSerial;
 };
 
-#endif // LIDAR_HPP
+#endif  // LIDAR_HPP
